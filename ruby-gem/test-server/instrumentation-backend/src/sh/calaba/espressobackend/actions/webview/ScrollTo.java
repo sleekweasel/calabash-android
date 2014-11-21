@@ -27,7 +27,7 @@ public class ScrollTo implements Action {
         scrollToTop(webView);
 
         while (keepScrolling(uiQuery, webView)) {
-            TouchUtils.dragQuarterScreenUp(Actions.parentTestCase, EspressoInstrumentationBackend.solo.getCurrentActivity());
+            TouchUtils.dragQuarterScreenUp(Actions.parentTestCase, EspressoInstrumentationBackend.getCurrentActivity());
         }
 
 		return new Result(isVisible(uiQuery, webView), "");

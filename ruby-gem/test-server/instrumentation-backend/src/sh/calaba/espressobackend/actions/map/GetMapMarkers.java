@@ -19,7 +19,7 @@ public class GetMapMarkers implements Action {
 
     @Override
     public Result execute(String... args) {
-        List<String> markers = EspressoInstrumentationBackend.solo.getMapMarkerItems();
+        List<String> markers = EspressoInstrumentationBackend.mapViewUtils.getMarkerItems();
         
         Result result;
         if( args.length != 0 ) {

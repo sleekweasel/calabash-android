@@ -22,7 +22,7 @@ public class IsCurrentActivityFocused implements Action {
 	@Override
 	public Result execute(String... args) {
 		
-		Activity currentActivity = EspressoInstrumentationBackend.solo.getCurrentActivity();
+		Activity currentActivity = EspressoInstrumentationBackend.getCurrentActivity();
 		
 		String hasFocus = "false";
 		

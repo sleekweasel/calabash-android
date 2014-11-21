@@ -15,7 +15,7 @@ public class DragCoordinates implements Action {
 		Float toY = new Float(args[3]);
 		Integer stepCount = 40;
 
-		EspressoInstrumentationBackend.solo.drag(fromX,	toX, fromY,	toY, stepCount);
+        Dragger.drag(fromX,	toX, fromY,	toY, stepCount);
 
 		return Result.successResult();
 	}

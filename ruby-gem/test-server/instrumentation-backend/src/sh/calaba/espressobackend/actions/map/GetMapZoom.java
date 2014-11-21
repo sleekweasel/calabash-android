@@ -8,7 +8,7 @@ public class GetMapZoom implements Action {
 
 	@Override
     public Result execute(String... args) {
-    	int zoomLevel = EspressoInstrumentationBackend.solo.getMapZoom();
+    	int zoomLevel = EspressoInstrumentationBackend.mapViewUtils.getZoom();
         return new Result(true, Integer.toString(zoomLevel));
     }
 

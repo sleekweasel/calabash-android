@@ -1,10 +1,11 @@
 package sh.calaba.espressobackend.actions.gestures;
 
-import sh.calaba.espressobackend.EspressoInstrumentationBackend;
 import sh.calaba.espressobackend.Result;
 import sh.calaba.espressobackend.actions.Action;
 
-import com.jayway.android.robotium.solo.Solo;
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
+import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 public class Swipe implements Action {
 
@@ -14,10 +15,10 @@ public class Swipe implements Action {
 
         if (args.length == 1) {
             if(direction.equalsIgnoreCase("left")) {
-                EspressoInstrumentationBackend.solo.scrollToSide(Solo.LEFT);
+            	Espresso.onView(ViewMatchers.withId(android.R.id.content)).perform(ViewActions.swipeLeft());
                 return Result.successResult();
             } else if(direction.equalsIgnoreCase("right")) {
-                EspressoInstrumentationBackend.solo.scrollToSide(Solo.RIGHT);
+            	Espresso.onView(ViewMatchers.withId(android.R.id.content)).perform(ViewActions.swipeRight());
                 return Result.successResult();
             }
             return Result.failedResult("Invalid direction to swipe: " + direction);

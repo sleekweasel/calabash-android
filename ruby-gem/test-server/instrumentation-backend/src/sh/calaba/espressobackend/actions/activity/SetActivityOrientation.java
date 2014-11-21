@@ -1,5 +1,7 @@
 package sh.calaba.espressobackend.actions.activity;
 
+import android.content.pm.ActivityInfo;
+
 import sh.calaba.espressobackend.EspressoInstrumentationBackend;
 import sh.calaba.espressobackend.Result;
 import sh.calaba.espressobackend.actions.Action;
@@ -14,14 +16,14 @@ public class SetActivityOrientation implements Action {
         String orientation = args[0].toLowerCase();
 
         if (orientation.equals("landscape")) {
-            EspressoInstrumentationBackend.solo.setActivityOrientation(0);
+            EspressoInstrumentationBackend.getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else if(orientation.equals("portrait")) {
-            EspressoInstrumentationBackend.solo.setActivityOrientation(1);
+            EspressoInstrumentationBackend.getCurrentActivity().setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         } else {
             throw new IllegalArgumentException("Invalid orientation '" + orientation + "'. Use 'landscape' or 'portrait'");
         }
-        // Wait 100ms for orientation change to happen.
-        sleep(100);
+        // Wait for orientation change to happen.
+        EspressoInstrumentationBackend.instrumentation.waitForIdleSync();
 
         return Result.successResult();
     }

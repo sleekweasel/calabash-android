@@ -15,7 +15,7 @@ public class GetMapMarker implements Action {
     @Override
     public Result execute(String... args) {
     	String title = args[0];
-        String marker = EspressoInstrumentationBackend.solo.getMapMarkerItem(title);
+        String marker = EspressoInstrumentationBackend.mapViewUtils.getMarkerItem(title);
         
         if( marker == null ) {
         	return new Result(false, "Could not find marker " + title);

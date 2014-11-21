@@ -12,7 +12,7 @@ public class SetMapCenter implements Action {
 
     @Override
     public Result execute(String... args) {
-        EspressoInstrumentationBackend.solo.setMapCenter( Double.parseDouble(args[0]), Double.parseDouble(args[1]) );
+        EspressoInstrumentationBackend.mapViewUtils.setCenter( Double.parseDouble(args[0]), Double.parseDouble(args[1]) );
         return Result.successResult();
     }
 

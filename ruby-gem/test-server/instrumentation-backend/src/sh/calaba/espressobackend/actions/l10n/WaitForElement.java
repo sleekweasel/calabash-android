@@ -13,6 +13,10 @@
  */
 package sh.calaba.espressobackend.actions.l10n;
 
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
+import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+
 import sh.calaba.espressobackend.EspressoInstrumentationBackend;
 import sh.calaba.espressobackend.Result;
 import sh.calaba.espressobackend.actions.Action;
@@ -31,14 +35,9 @@ public class WaitForElement implements Action {
 		String pckg = (args.length > 1)? args[1] : null;
 		
 		String myLocalizedString = L10nHelper.getValue(l10nKey, pckg);
-		boolean timedOut = !EspressoInstrumentationBackend.solo.waitForText(
-				myLocalizedString, 1, 90000);
-		if (timedOut) {
-			return new Result(false, "Time out while waiting for text:"
-					+ args[0] + ", package: " + pckg);
-		} else {
-			return Result.successResult();
-		}
+		Espresso.onView(ViewMatchers.withText(myLocalizedString)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+		
+		return Result.successResult();
 	}
 
 	@Override

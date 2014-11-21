@@ -14,7 +14,7 @@ public class GetMapBounds implements Action {
 
 	@Override
 	public Result execute(String... args) {
-		List<String> bounds = EspressoInstrumentationBackend.solo.getMapBounds();
+		List<String> bounds = EspressoInstrumentationBackend.mapViewUtils.getBounds();
 		Result result = new Result(true);
 		result.setExtras( bounds );
 		return result;

@@ -32,7 +32,7 @@ public class Backdoor implements Action {
 		// create invocation operation to call method
 		Operation op = new InvocationOperation(methodName, arguments);
 		// get an application object to call operation on
-		Context app = EspressoInstrumentationBackend.solo.getCurrentActivity().getApplication();
+		Context app = EspressoInstrumentationBackend.getCurrentActivity().getApplication();
 		String backdoorResult = null;
 		try {
 			backdoorResult = (String)op.apply(app);

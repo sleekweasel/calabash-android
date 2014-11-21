@@ -13,7 +13,7 @@ public class GetMapCenter implements Action {
 
 	@Override
 	public Result execute(String... args) {
-		double[] center = EspressoInstrumentationBackend.solo.getMapCenter();
+		double[] center = EspressoInstrumentationBackend.mapViewUtils.getMapCenter();
         Result result = new Result(true);
         result.addBonusInformation( Double.toString(center[0]) );
         result.addBonusInformation( Double.toString(center[1]) );

@@ -1,7 +1,10 @@
 package sh.calaba.espressobackend;
 
-import android.os.Looper;
-import android.os.MessageQueue;
+import java.lang.reflect.Field;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
 import sh.calaba.espressobackend.actions.Actions;
 import sh.calaba.espressobackend.actions.HttpServer;
 import android.Manifest;
@@ -12,15 +15,15 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.os.MessageQueue;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 
+import com.google.android.apps.common.testing.testrunner.ActivityLifecycleMonitorRegistry;
+import com.google.android.apps.common.testing.testrunner.Stage;
 import com.jayway.android.robotium.solo.PublicViewFetcher;
 import com.jayway.android.robotium.solo.SoloEnhanced;
-
-import java.lang.reflect.Field;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 public class EspressoInstrumentationBackend extends ActivityInstrumentationTestCase2<Activity> {
     public static String testPackage;
@@ -31,9 +34,9 @@ public class EspressoInstrumentationBackend extends ActivityInstrumentationTestC
     private static final String TAG = "EspressoInstrumentationBackend";
     
     public static Instrumentation instrumentation;
-    public static SoloEnhanced solo;
-    public static PublicViewFetcher viewFetcher;
     public static Actions actions;
+    public static EspressoMapViewUtils mapViewUtils;
+	private static Activity currentActivity;
 
     public EspressoInstrumentationBackend() {
         super((Class<Activity>)mainActivity);
@@ -44,7 +47,7 @@ public class EspressoInstrumentationBackend extends ActivityInstrumentationTestC
         if (mainActivity != null) {
             return super.getActivity();
         }
-
+        
         try {
             setMainActivity(Class.forName(mainActivityName).asSubclass(Activity.class));
             return super.getActivity();
@@ -135,15 +138,12 @@ public class EspressoInstrumentationBackend extends ActivityInstrumentationTestC
             }
         }
         if (activity != null) {
-            solo = new SoloEnhanced(getInstrumentation(), activity);
+            mapViewUtils = new EspressoMapViewUtils();
             setActivity(activity);
-
-            viewFetcher = new PublicViewFetcher(solo.getActivityUtils());
 
             HttpServer httpServer = HttpServer.getInstance();
             httpServer.setReady();
             httpServer.waitUntilShutdown();
-            solo.finishOpenedActivities();
             System.exit(0);
         } else {
             throw new RuntimeException("Could not get detect the first Activity");
@@ -156,11 +156,6 @@ public class EspressoInstrumentationBackend extends ActivityInstrumentationTestC
         httpServer.stop();
 
         System.out.println("Finishing");
-        try {
-            solo.finalize();
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
 
         removeTestLocationProviders(this.getActivity());
 
@@ -176,9 +171,23 @@ public class EspressoInstrumentationBackend extends ActivityInstrumentationTestC
     public static void logError(String message) {
         Log.e(TAG, message);
     }
+    
+    public static Activity getCurrentActivity(){
+        instrumentation.runOnMainSync(new Runnable() {
+            public void run() {
+                Collection<Activity> resumedActivities = ActivityLifecycleMonitorRegistry.getInstance().getActivitiesInStage(Stage.RESUMED);
+                for (Activity activity : resumedActivities){
+                    currentActivity = activity;
+                    break;
+                }
+            }
+        });
+
+        return currentActivity;
+    }
 
     private void removeTestLocationProviders(Activity activity) {
-        int hasPermission = solo.getCurrentActivity().checkCallingOrSelfPermission(Manifest.permission.ACCESS_MOCK_LOCATION);
+        int hasPermission = getCurrentActivity().checkCallingOrSelfPermission(Manifest.permission.ACCESS_MOCK_LOCATION);
 
         if (hasPermission == PackageManager.PERMISSION_GRANTED) {
             LocationManager locationService = (LocationManager) activity.getSystemService(Context.LOCATION_SERVICE);

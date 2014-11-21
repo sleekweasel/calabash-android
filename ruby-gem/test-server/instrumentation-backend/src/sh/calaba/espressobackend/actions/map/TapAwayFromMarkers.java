@@ -15,7 +15,7 @@ public class TapAwayFromMarkers implements Action {
 	@Override
 	public Result execute(String... args) {
 		int step = (args.length == 0) ? 5 : Integer.parseInt(args[0]);
-		if( EspressoInstrumentationBackend.solo.tapMapAwayFromMarkers(step) ) {
+		if( EspressoInstrumentationBackend.mapViewUtils.tapAwayFromMarkerItems(step) ) {
 			return Result.successResult();
 		}
 		return new Result(false, "Could not find any where to tap away from markers");

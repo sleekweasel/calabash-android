@@ -12,13 +12,13 @@ public class SetMapZoom implements Action {
     @Override
     public Result execute(String... args) {
     	if( "in".equals(args[0]) ) {
-    		return new Result( EspressoInstrumentationBackend.solo.zoomInOnMap() );
+    		return new Result( EspressoInstrumentationBackend.mapViewUtils.zoomIn());
     	} else if( "out".equals(args[0]) ) {
-    		return new Result( EspressoInstrumentationBackend.solo.zoomOutOnMap() );
+    		return new Result( EspressoInstrumentationBackend.mapViewUtils.zoomOut());
     	}
     	
     	int zoomLevel = Integer.parseInt(args[0]);
-        int newZoom = EspressoInstrumentationBackend.solo.setMapZoom( zoomLevel );
+        int newZoom = EspressoInstrumentationBackend.mapViewUtils.setZoom(zoomLevel);
         
         if( newZoom == zoomLevel ) {
         	return Result.successResult();

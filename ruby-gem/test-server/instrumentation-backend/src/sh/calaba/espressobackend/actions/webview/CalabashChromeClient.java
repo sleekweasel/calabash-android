@@ -1,7 +1,6 @@
 package sh.calaba.espressobackend.actions.webview;
 
 import java.io.IOException;
-import java.lang.RuntimeException;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -14,13 +13,12 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-import android.graphics.Bitmap;
-import android.os.Looper;
-import sh.calaba.espressobackend.EspressoInstrumentationBackend;
 import sh.calaba.espressobackend.query.ast.UIQueryUtils;
+import sh.calaba.espressobackend.query.espresso.ViewCaptor;
+import sh.calaba.espressobackend.query.espresso.WebViewCaptorMatcher;
 import sh.calaba.org.codehaus.jackson.map.ObjectMapper;
 import sh.calaba.org.codehaus.jackson.type.TypeReference;
-
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.ConditionVariable;
 import android.os.Message;
@@ -33,6 +31,8 @@ import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
+
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
 
 public class CalabashChromeClient extends WebChromeClient {
 	private WebChromeClient mWebChromeClient;
@@ -174,12 +174,13 @@ public class CalabashChromeClient extends WebChromeClient {
 
 	public static List<CalabashChromeClient> findAndPrepareWebViews() {
 		List<CalabashChromeClient> webViews = new ArrayList<CalabashChromeClient>();
-		ArrayList<View> views = EspressoInstrumentationBackend.solo.getCurrentViews();
+		WebViewCaptorMatcher webViewCaptorMatcher = new WebViewCaptorMatcher();
+		Espresso.onView(webViewCaptorMatcher).perform(new ViewCaptor());
+		List<View> views = webViewCaptorMatcher.getCapturedViews();
+		
 		for (View view : views) {
-			if (view instanceof WebView) {
 				WebView webView = (WebView) view;
 				webViews.add(prepareWebView(webView));
-			}
 		}
 		return webViews;
 

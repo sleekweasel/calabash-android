@@ -78,7 +78,7 @@ public class ViewMapper {
             if(v.getResources() != null) {
                 return v.getResources().getResourceEntryName(id);
             } else {
-                return EspressoInstrumentationBackend.solo.getCurrentActivity().getResources().getResourceEntryName(id);
+                return EspressoInstrumentationBackend.getCurrentActivity().getResources().getResourceEntryName(id);
             }
         } catch (Resources.NotFoundException e) {
             if(id == -1) {
