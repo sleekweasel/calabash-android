@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.l10n;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 
 /**
  * Helper to access Android L10n files.
@@ -19,17 +19,17 @@ public class L10nHelper {
   public static String getValue(String l10nKey, String pckg) {
     
     if(pckg == null){
-        pckg = InstrumentationBackend.solo.getCurrentActivity().getPackageName();
+        pckg = RobotiumInstrumentationBackend.solo.getCurrentActivity().getPackageName();
     }
       
     int resourceId =
-        InstrumentationBackend.solo
+        RobotiumInstrumentationBackend.solo
             .getCurrentActivity()
             .getResources()
             .getIdentifier(l10nKey, "string", pckg);
 
     String localizedString =
-        InstrumentationBackend.solo.getCurrentActivity().getResources().getString(resourceId);
+        RobotiumInstrumentationBackend.solo.getCurrentActivity().getResources().getString(resourceId);
 
     return localizedString;
   }

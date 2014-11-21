@@ -22,7 +22,7 @@ import java.util.concurrent.locks.ReentrantLock;
 
 import sh.calaba.instrumentationbackend.Command;
 import sh.calaba.instrumentationbackend.FranklyResult;
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.webview.CalabashChromeClient;
 import sh.calaba.instrumentationbackend.actions.webview.ExecuteAsyncJavascript;
@@ -148,7 +148,7 @@ public class HttpServer extends NanoHTTPD {
                     intent.setAction((String) data.get("action"));
                 }
 
-                Activity activity = InstrumentationBackend.solo.getCurrentActivity();
+                Activity activity = RobotiumInstrumentationBackend.solo.getCurrentActivity();
 
                 Log.d(TAG, "Broadcasting intent " + intent);
                 activity.sendBroadcast(intent);
@@ -171,7 +171,7 @@ public class HttpServer extends NanoHTTPD {
                 List arguments = (List) backdoorMethod.get("arguments");
                 Operation operation = new InvocationOperation(methodName, arguments);
 
-                Application application = InstrumentationBackend.solo.getCurrentActivity().getApplication();
+                Application application = RobotiumInstrumentationBackend.solo.getCurrentActivity().getApplication();
                 Object invocationResult;
 
                 invocationResult = operation.apply(application);
@@ -232,7 +232,7 @@ public class HttpServer extends NanoHTTPD {
                     }
 
                     for (final View view : views) {
-                        InstrumentationBackend.solo.runOnMainSync(new Runnable() {
+                        RobotiumInstrumentationBackend.solo.runOnMainSync(new Runnable() {
                             @Override
                             public void run() {
                                 Animation animation = new AlphaAnimation(1, 0);
@@ -376,7 +376,7 @@ public class HttpServer extends NanoHTTPD {
 	private View getRootView() {
 		for (int i = 0; i < 25; i++) {
 			try {
-				View decorView = InstrumentationBackend.solo
+				View decorView = RobotiumInstrumentationBackend.solo
 						.getCurrentActivity().getWindow().getDecorView();
 				if (decorView != null) {
 					View rootView = decorView

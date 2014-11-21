@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.query;
 
-import static sh.calaba.instrumentationbackend.InstrumentationBackend.viewFetcher;
+import static sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend.viewFetcher;
 
 import java.util.ArrayList;
 import java.util.Collections;

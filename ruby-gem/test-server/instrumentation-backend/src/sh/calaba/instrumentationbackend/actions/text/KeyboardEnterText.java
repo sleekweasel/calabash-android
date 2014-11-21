@@ -9,7 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import java.lang.Character;
 import java.lang.reflect.Field;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -27,7 +27,7 @@ public class KeyboardEnterText implements Action {
         }
 
         final String textToEnter = args[0];
-        InstrumentationBackend.solo.runOnMainSync(new Runnable() {
+        RobotiumInstrumentationBackend.solo.runOnMainSync(new Runnable() {
             @Override
             public void run() {
                 for (char c : textToEnter.toCharArray()) {

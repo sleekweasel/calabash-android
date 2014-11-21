@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.view;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 import android.app.Activity;
@@ -22,7 +22,7 @@ public class IsCurrentActivityFocused implements Action {
 	@Override
 	public Result execute(String... args) {
 		
-		Activity currentActivity = InstrumentationBackend.solo.getCurrentActivity();
+		Activity currentActivity = RobotiumInstrumentationBackend.solo.getCurrentActivity();
 		
 		String hasFocus = "false";
 		

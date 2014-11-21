@@ -13,7 +13,7 @@
  */
 package sh.calaba.instrumentationbackend.actions.l10n;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -31,7 +31,7 @@ public class WaitForElement implements Action {
 		String pckg = (args.length > 1)? args[1] : null;
 		
 		String myLocalizedString = L10nHelper.getValue(l10nKey, pckg);
-		boolean timedOut = !InstrumentationBackend.solo.waitForText(
+		boolean timedOut = !RobotiumInstrumentationBackend.solo.waitForText(
 				myLocalizedString, 1, 90000);
 		if (timedOut) {
 			return new Result(false, "Time out while waiting for text:"

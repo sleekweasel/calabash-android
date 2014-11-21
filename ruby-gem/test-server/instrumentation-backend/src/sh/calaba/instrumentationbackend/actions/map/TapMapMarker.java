@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.map;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -16,7 +16,7 @@ public class TapMapMarker implements Action {
 	public Result execute(String... args) {
 		String title = args[0];
 		long timeout = (args.length > 1) ? Long.parseLong(args[1]) : 10000;
-		if( InstrumentationBackend.solo.tapMapMarkerItem(title, timeout) ) {
+		if( RobotiumInstrumentationBackend.solo.tapMapMarkerItem(title, timeout) ) {
 			return Result.successResult();
 		}
 		return new Result(false, "Could not find marker '" + title + "' to tap after waiting " + timeout + " ms");

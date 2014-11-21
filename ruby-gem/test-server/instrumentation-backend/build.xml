@@ -27,7 +27,9 @@
             includeantruntime="false"
 			destdir="${build.dir}" >
 			    <include name="sh/calaba/instrumentationbackend/query/**/*.java"/>
-			    <exclude name="sh/calaba/instrumentationbackend/query/*.java"/> 
+			    <include name="sh/calaba/espressobackend/query/**/*.java"/>
+			    <exclude name="sh/calaba/instrumentationbackend/query/*.java"/>
+			    <exclude name="sh/calaba/espressobackend/query/*.java"/> 
 			  </javac>
     </target>
 
@@ -40,6 +42,7 @@
             includeantruntime="false"
 			destdir="${build.dir}" >
 			    <include name="sh/calaba/instrumentationbackend/query/**/*.java"/>
+			    <include name="sh/calaba/espressobackend/query/**/*.java"/>
 			     
 			  </javac>
         <junit showoutput="true" >

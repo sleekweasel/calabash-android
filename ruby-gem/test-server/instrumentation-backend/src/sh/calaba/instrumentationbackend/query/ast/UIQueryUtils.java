@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.antlr.runtime.tree.CommonTree;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.actions.webview.CalabashChromeClient.WebFuture;
 import sh.calaba.instrumentationbackend.actions.webview.QueryHelper;
 import sh.calaba.instrumentationbackend.query.CompletedFuture;
@@ -226,7 +226,7 @@ public class UIQueryUtils {
 		final AtomicReference<Future> result = new AtomicReference<Future>();
 		final AtomicReference<Exception> errorResult = new AtomicReference<Exception>();
 
-		InstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
+		RobotiumInstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
 			@SuppressWarnings("unchecked")
 			public void run() {
 				try {

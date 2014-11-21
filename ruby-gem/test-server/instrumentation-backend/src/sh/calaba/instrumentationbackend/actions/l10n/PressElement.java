@@ -1,7 +1,7 @@
 
 package sh.calaba.instrumentationbackend.actions.l10n;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -24,15 +24,15 @@ public class PressElement implements Action {
 		String pckg = (args.length > 2)? args[2] : null;
 		
 		String myLocalizedString = L10nHelper.getValue(l10nKey, pckg);
-		InstrumentationBackend.solo.searchText(myLocalizedString);
+		RobotiumInstrumentationBackend.solo.searchText(myLocalizedString);
 		if (elementType == null) {
-			InstrumentationBackend.solo.clickOnText(myLocalizedString);
+			RobotiumInstrumentationBackend.solo.clickOnText(myLocalizedString);
 		} else if (BUTTON.equalsIgnoreCase(elementType)) {
-			InstrumentationBackend.solo.clickOnButton(myLocalizedString);
+			RobotiumInstrumentationBackend.solo.clickOnButton(myLocalizedString);
 		} else if (MENU_ITEM.equalsIgnoreCase(elementType)) {
-			InstrumentationBackend.solo.clickOnMenuItem(myLocalizedString);
+			RobotiumInstrumentationBackend.solo.clickOnMenuItem(myLocalizedString);
 		} else if (TOGGLE_BUTTON.equalsIgnoreCase(elementType)) {
-			InstrumentationBackend.solo.clickOnToggleButton(myLocalizedString);
+			RobotiumInstrumentationBackend.solo.clickOnToggleButton(myLocalizedString);
 		} else {
 			return Result.fromThrowable(new Throwable(
 					"specified element type: '" + elementType

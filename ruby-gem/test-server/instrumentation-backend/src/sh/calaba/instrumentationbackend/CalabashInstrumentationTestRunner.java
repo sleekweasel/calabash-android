@@ -17,7 +17,7 @@ public class CalabashInstrumentationTestRunner extends InstrumentationTestRunner
 			Method  method = c.getDeclaredMethod ("LoadApplication", Context.class, String.class, String[].class);
 			method.invoke (null, context, null, new String[]{context.getApplicationInfo ().sourceDir});
 			System.out.println("Calabash loaded Mono");
-            InstrumentationBackend.mainActivity = Class.forName(arguments.getString("main_activity")).asSubclass(Activity.class);
+            RobotiumInstrumentationBackend.mainActivity = Class.forName(arguments.getString("main_activity")).asSubclass(Activity.class);
 		} catch (Exception e) {
 			System.out.println("Calabash did not load Mono. This is only a problem if you are trying to test a Mono application");
 		}
@@ -25,7 +25,7 @@ public class CalabashInstrumentationTestRunner extends InstrumentationTestRunner
         // Start the HttpServer as soon as possible in a not-ready state
         HttpServer.instantiate(Integer.parseInt(arguments.getString("test_server_port")));
 
-        InstrumentationBackend.testPackage = arguments.getString("target_package");
+        RobotiumInstrumentationBackend.testPackage = arguments.getString("target_package");
 
         Bundle extras = (Bundle)arguments.clone();
         extras.remove("target_package");
@@ -37,10 +37,10 @@ public class CalabashInstrumentationTestRunner extends InstrumentationTestRunner
             extras = null;
         }
 
-        InstrumentationBackend.extras = extras;
+        RobotiumInstrumentationBackend.extras = extras;
 
         try {
-            InstrumentationBackend.mainActivityName = arguments.getString("main_activity");
+            RobotiumInstrumentationBackend.mainActivityName = arguments.getString("main_activity");
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

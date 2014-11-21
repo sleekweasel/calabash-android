@@ -7,17 +7,17 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.lang.reflect.Field;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
 public class HideSoftKeyboard implements Action {
     @Override
     public Result execute(String... args) {
-        Context context = InstrumentationBackend.instrumentation.getTargetContext();
+        Context context = RobotiumInstrumentationBackend.instrumentation.getTargetContext();
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        Activity activity = InstrumentationBackend.solo.getCurrentActivity();
+        Activity activity = RobotiumInstrumentationBackend.solo.getCurrentActivity();
         View view;
 
         view = InfoMethodUtil.tryGetServedView();

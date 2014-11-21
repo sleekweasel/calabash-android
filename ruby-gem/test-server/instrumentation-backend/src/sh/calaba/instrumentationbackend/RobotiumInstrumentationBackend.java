@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-public class InstrumentationBackend extends ActivityInstrumentationTestCase2<Activity> {
+public class RobotiumInstrumentationBackend extends ActivityInstrumentationTestCase2<Activity> {
     public static String testPackage;
     public static String mainActivityName;
     public static Class<? extends Activity> mainActivity;
@@ -35,7 +35,7 @@ public class InstrumentationBackend extends ActivityInstrumentationTestCase2<Act
     public static PublicViewFetcher viewFetcher;
     public static Actions actions;
 
-    public InstrumentationBackend() {
+    public RobotiumInstrumentationBackend() {
         super((Class<Activity>)mainActivity);
     }
 

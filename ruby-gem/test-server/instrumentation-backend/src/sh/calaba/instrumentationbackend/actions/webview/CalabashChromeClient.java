@@ -16,7 +16,7 @@ import java.util.concurrent.TimeoutException;
 
 import android.graphics.Bitmap;
 import android.os.Looper;
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.query.ast.UIQueryUtils;
 import sh.calaba.org.codehaus.jackson.map.ObjectMapper;
 import sh.calaba.org.codehaus.jackson.type.TypeReference;
@@ -174,7 +174,7 @@ public class CalabashChromeClient extends WebChromeClient {
 
 	public static List<CalabashChromeClient> findAndPrepareWebViews() {
 		List<CalabashChromeClient> webViews = new ArrayList<CalabashChromeClient>();
-		ArrayList<View> views = InstrumentationBackend.solo.getCurrentViews();
+		ArrayList<View> views = RobotiumInstrumentationBackend.solo.getCurrentViews();
 		for (View view : views) {
 			if (view instanceof WebView) {
 				WebView webView = (WebView) view;

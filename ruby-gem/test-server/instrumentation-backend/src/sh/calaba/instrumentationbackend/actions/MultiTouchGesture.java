@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.query.Query;
 import sh.calaba.instrumentationbackend.query.QueryResult;
 
@@ -29,7 +29,7 @@ public class MultiTouchGesture {
 
     public MultiTouchGesture(Map<String, Object> multiTouchGesture) {
         this.multiTouchGestureMap = multiTouchGesture;
-        instrumentation = InstrumentationBackend.instrumentation;
+        instrumentation = RobotiumInstrumentationBackend.instrumentation;
         gesturesToPerform = new ArrayList<Gesture>();
         hasPressedFirstGesture = false;
     }
@@ -328,7 +328,7 @@ public class MultiTouchGesture {
     }
 
     public static void tryWaitForKeyguard(int timeoutSeconds) {
-        Activity activity = InstrumentationBackend.solo.getCurrentActivity();
+        Activity activity = RobotiumInstrumentationBackend.solo.getCurrentActivity();
         KeyguardManager keyguardManager = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
 
         if (!keyguardManager.inKeyguardRestrictedInputMode()) {

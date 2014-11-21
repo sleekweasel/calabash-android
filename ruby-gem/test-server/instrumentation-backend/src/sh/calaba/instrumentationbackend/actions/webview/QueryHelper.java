@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.actions.webview.CalabashChromeClient.WebFuture;
 import sh.calaba.org.codehaus.jackson.map.ObjectMapper;
 
@@ -80,7 +80,7 @@ public class QueryHelper {
     private static String readJavascriptFromAsset(String scriptPath) {
     	StringBuffer script = new StringBuffer();
 		try {
-			InputStream is = InstrumentationBackend.instrumentation.getContext().getResources().getAssets().open(scriptPath);
+			InputStream is = RobotiumInstrumentationBackend.instrumentation.getContext().getResources().getAssets().open(scriptPath);
 			BufferedReader input =  new BufferedReader(new InputStreamReader(is));
 			String line = null;
 			while (( line = input.readLine()) != null){
