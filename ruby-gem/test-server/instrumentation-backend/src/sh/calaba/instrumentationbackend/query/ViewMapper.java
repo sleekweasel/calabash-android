@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.query.ast.UIQueryUtils;
 import android.content.res.Resources;
 import android.view.View;
@@ -78,7 +78,7 @@ public class ViewMapper {
             if(v.getResources() != null) {
                 return v.getResources().getResourceEntryName(id);
             } else {
-                return InstrumentationBackend.solo.getCurrentActivity().getResources().getResourceEntryName(id);
+                return RobotiumInstrumentationBackend.solo.getCurrentActivity().getResources().getResourceEntryName(id);
             }
         } catch (Resources.NotFoundException e) {
             if(id == -1) {

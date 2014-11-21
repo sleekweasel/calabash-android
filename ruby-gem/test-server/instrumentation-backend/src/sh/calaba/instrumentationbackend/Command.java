@@ -43,7 +43,7 @@ public class Command {
 	}
 
     public Result execute() {
-        final Action action = InstrumentationBackend.actions.lookup(getCommand());
+        final Action action = RobotiumInstrumentationBackend.actions.lookup(getCommand());
         return action.execute(getArguments());
     }
 

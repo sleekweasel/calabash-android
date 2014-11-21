@@ -587,7 +587,7 @@ module Calabash module Android
         env_options[:target_package] ||= package_name(@app_path)
         env_options[:main_activity] ||= main_activity(@app_path)
         env_options[:test_server_port] ||= @test_server_port
-        env_options[:class] ||= "sh.calaba.instrumentationbackend.InstrumentationBackend"
+        env_options[:class] ||= 'sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend'
 
         cmd_arr = [adb_command, "shell am instrument"]
 
@@ -597,7 +597,9 @@ module Calabash module Android
           cmd_arr << val.to_s
         end
 
-        cmd_arr << "#{package_name(@test_server_path)}/sh.calaba.instrumentationbackend.CalabashInstrumentationTestRunner"
+        env_options[:test_runner] ||= 'sh.calaba.instrumentationbackend.CalabashInstrumentationTestRunner'
+
+        cmd_arr << "#{package_name(@test_server_path)}/#{env_options[:test_runner]}"
 
         cmd = cmd_arr.join(" ")
 

@@ -13,7 +13,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.HashMap;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -57,7 +57,7 @@ public class PressUserActionButton implements Action {
             imeActionCode = findActionCode(view);
         }
 
-        InstrumentationBackend.solo.runOnMainSync(new Runnable() {
+        RobotiumInstrumentationBackend.solo.runOnMainSync(new Runnable() {
             @Override
             public void run() {
                 inputConnection.performEditorAction(imeActionCode);

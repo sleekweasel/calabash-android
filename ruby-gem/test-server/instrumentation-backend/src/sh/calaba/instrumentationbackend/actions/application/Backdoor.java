@@ -7,7 +7,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 import sh.calaba.instrumentationbackend.query.Operation;
@@ -32,7 +32,7 @@ public class Backdoor implements Action {
 		// create invocation operation to call method
 		Operation op = new InvocationOperation(methodName, arguments);
 		// get an application object to call operation on
-		Context app = InstrumentationBackend.solo.getCurrentActivity().getApplication();
+		Context app = RobotiumInstrumentationBackend.solo.getCurrentActivity().getApplication();
 		String backdoorResult = null;
 		try {
 			backdoorResult = (String)op.apply(app);

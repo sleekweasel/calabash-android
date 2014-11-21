@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.gestures;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -14,10 +14,10 @@ public class Swipe implements Action {
 
         if (args.length == 1) {
             if(direction.equalsIgnoreCase("left")) {
-                InstrumentationBackend.solo.scrollToSide(Solo.LEFT);
+                RobotiumInstrumentationBackend.solo.scrollToSide(Solo.LEFT);
                 return Result.successResult();
             } else if(direction.equalsIgnoreCase("right")) {
-                InstrumentationBackend.solo.scrollToSide(Solo.RIGHT);
+                RobotiumInstrumentationBackend.solo.scrollToSide(Solo.RIGHT);
                 return Result.successResult();
             }
             return Result.failedResult("Invalid direction to swipe: " + direction);

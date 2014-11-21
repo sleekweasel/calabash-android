@@ -3,7 +3,7 @@ package sh.calaba.instrumentationbackend.actions.map;
 
 import java.util.List;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -19,7 +19,7 @@ public class GetMapMarkers implements Action {
 
     @Override
     public Result execute(String... args) {
-        List<String> markers = InstrumentationBackend.solo.getMapMarkerItems();
+        List<String> markers = RobotiumInstrumentationBackend.solo.getMapMarkerItems();
         
         Result result;
         if( args.length != 0 ) {

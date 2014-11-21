@@ -3,7 +3,7 @@ package sh.calaba.instrumentationbackend.actions.text;
 import android.text.Editable;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.InputConnection;
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -24,7 +24,7 @@ public class ClearText implements Action {
         }
 
         final CountDownLatch latch = new CountDownLatch(1);
-        InstrumentationBackend.solo.runOnMainSync(new Runnable() {
+        RobotiumInstrumentationBackend.solo.runOnMainSync(new Runnable() {
             @Override
             public void run() {
                 connection.setSelection(0, editable.length());

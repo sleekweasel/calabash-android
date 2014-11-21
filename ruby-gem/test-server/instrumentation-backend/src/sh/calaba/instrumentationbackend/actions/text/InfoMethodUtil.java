@@ -4,13 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InputMethodManager;
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 
 import java.lang.reflect.Field;
 
 public class InfoMethodUtil {
     static View getServedView() {
-        Context context = InstrumentationBackend.instrumentation.getTargetContext();
+        Context context = RobotiumInstrumentationBackend.instrumentation.getTargetContext();
 
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -32,7 +32,7 @@ public class InfoMethodUtil {
     }
 
     static InputConnection getInputConnection() {
-        Context context = InstrumentationBackend.instrumentation.getTargetContext();
+        Context context = RobotiumInstrumentationBackend.instrumentation.getTargetContext();
 
         try {
             InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);

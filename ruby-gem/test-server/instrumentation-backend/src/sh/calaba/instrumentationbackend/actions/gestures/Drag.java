@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.gestures;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -18,12 +18,12 @@ public class Drag implements Action {
 		Integer stepCount = new Integer(args[4]);
 
 		DisplayMetrics dm = new DisplayMetrics();
-		InstrumentationBackend.solo.getCurrentActivity().getWindowManager()
+		RobotiumInstrumentationBackend.solo.getCurrentActivity().getWindowManager()
 				.getDefaultDisplay().getMetrics(dm);
 		Integer windowWidth = dm.widthPixels;
 		Integer windowHeight = dm.heightPixels;
 
-		InstrumentationBackend.solo.drag(fromX / 100 * windowWidth, 
+		RobotiumInstrumentationBackend.solo.drag(fromX / 100 * windowWidth, 
 				toX / 100 * windowWidth, 
 				fromY / 100 * windowHeight, 
 				toY / 100 * windowHeight, 

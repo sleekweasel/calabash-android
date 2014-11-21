@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import android.app.Instrumentation;
 import android.content.ComponentName;
 import android.content.Context;
@@ -66,7 +66,7 @@ public class Actions {
         if (action.key() == null) {
             System.out.println("Skipping " + action.getClass() + ". Key is null.");
         } else {
-            InstrumentationBackend.log("Added:'" + action.getClass().getSimpleName() + "', with key:'" + action.key() + "'");
+            RobotiumInstrumentationBackend.log("Added:'" + action.getClass().getSimpleName() + "', with key:'" + action.key() + "'");
             getActions().put(action.key(), action);
         }
     }

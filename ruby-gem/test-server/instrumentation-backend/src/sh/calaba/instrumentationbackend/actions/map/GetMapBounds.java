@@ -2,7 +2,7 @@ package sh.calaba.instrumentationbackend.actions.map;
 
 import java.util.List;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -14,7 +14,7 @@ public class GetMapBounds implements Action {
 
 	@Override
 	public Result execute(String... args) {
-		List<String> bounds = InstrumentationBackend.solo.getMapBounds();
+		List<String> bounds = RobotiumInstrumentationBackend.solo.getMapBounds();
 		Result result = new Result(true);
 		result.setExtras( bounds );
 		return result;

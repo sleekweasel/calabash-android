@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 
 public class InvocationOperation implements Operation {
@@ -31,7 +31,7 @@ public class InvocationOperation implements Operation {
 		final AtomicReference ref = new AtomicReference();
 		final AtomicReference<Exception> refEx = new AtomicReference<Exception>();
 		
-		InstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
+		RobotiumInstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
 
 			@SuppressWarnings("unchecked")
 			@Override

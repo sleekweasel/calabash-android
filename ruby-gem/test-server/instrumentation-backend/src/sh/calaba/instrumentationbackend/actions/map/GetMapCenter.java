@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.map;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -13,7 +13,7 @@ public class GetMapCenter implements Action {
 
 	@Override
 	public Result execute(String... args) {
-		double[] center = InstrumentationBackend.solo.getMapCenter();
+		double[] center = RobotiumInstrumentationBackend.solo.getMapCenter();
         Result result = new Result(true);
         result.addBonusInformation( Double.toString(center[0]) );
         result.addBonusInformation( Double.toString(center[1]) );

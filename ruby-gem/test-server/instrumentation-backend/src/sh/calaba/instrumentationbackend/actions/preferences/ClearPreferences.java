@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.preferences;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 import android.content.SharedPreferences;
@@ -20,7 +20,7 @@ public class ClearPreferences implements Action {
 		
 		try{
 			
-			SharedPreferences preferences = PreferencesUtils.getPreferencesFromArgs(args, InstrumentationBackend.instrumentation.getTargetContext());
+			SharedPreferences preferences = PreferencesUtils.getPreferencesFromArgs(args, RobotiumInstrumentationBackend.instrumentation.getTargetContext());
 			preferences.edit().clear().commit();
 			
 			return Result.successResult();

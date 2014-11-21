@@ -34,7 +34,7 @@ public class TestHelpers {
     }
 
     public static View getViewByDescription(String description) {
-        for (View view : InstrumentationBackend.solo.getCurrentViews()) {
+        for (View view : RobotiumInstrumentationBackend.solo.getCurrentViews()) {
             String viewDescription = view.getContentDescription() + "";
             if (viewDescription != null && viewDescription.equalsIgnoreCase(description)) {
                 return view;
@@ -64,7 +64,7 @@ public class TestHelpers {
             return null;
         }
 
-        return InstrumentationBackend.solo.getView(id);
+        return RobotiumInstrumentationBackend.solo.getView(id);
     }
 
     /**
@@ -86,18 +86,18 @@ public class TestHelpers {
             // Assume this is an "R.id.<name>" string.
         }
 
-        final Activity activity = InstrumentationBackend.solo.getCurrentActivity();
+        final Activity activity = RobotiumInstrumentationBackend.solo.getCurrentActivity();
         return activity.getResources().getIdentifier(resName, "id", activity.getPackageName());
     }
 
     public static Drawable getDrawableById(String resName) {
         int id;
         try {
-    	    id = InstrumentationBackend.solo.getCurrentActivity().getResources().getIdentifier(resName, "drawable", InstrumentationBackend.solo.getCurrentActivity().getPackageName());
+    	    id = RobotiumInstrumentationBackend.solo.getCurrentActivity().getResources().getIdentifier(resName, "drawable", RobotiumInstrumentationBackend.solo.getCurrentActivity().getPackageName());
     	} catch( NotFoundException e ) {
     		throw new RuntimeException("getDrawableById: Looking for drawable " + resName + " but was not found");
     	}
-        Drawable drawable = InstrumentationBackend.solo.getCurrentActivity().getResources().getDrawable(id);
+        Drawable drawable = RobotiumInstrumentationBackend.solo.getCurrentActivity().getResources().getDrawable(id);
         if (drawable != null) {
             System.out.println("Did find drawable " + resName + ": " + drawable);
         } else {

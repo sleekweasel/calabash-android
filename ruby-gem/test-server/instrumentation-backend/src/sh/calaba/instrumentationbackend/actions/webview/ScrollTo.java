@@ -4,7 +4,7 @@ package sh.calaba.instrumentationbackend.actions.webview;
 import java.util.List;
 import java.util.Map;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 import sh.calaba.instrumentationbackend.actions.Actions;
@@ -27,14 +27,14 @@ public class ScrollTo implements Action {
         scrollToTop(webView);
 
         while (keepScrolling(uiQuery, webView)) {
-            TouchUtils.dragQuarterScreenUp(Actions.parentTestCase, InstrumentationBackend.solo.getCurrentActivity());
+            TouchUtils.dragQuarterScreenUp(Actions.parentTestCase, RobotiumInstrumentationBackend.solo.getCurrentActivity());
         }
 
 		return new Result(isVisible(uiQuery, webView), "");
     }
 
     private void scrollToTop(final WebView webView) {
-        InstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
+        RobotiumInstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
             @Override
             public void run() {
                 webView.scrollTo(0, 0);

@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.gestures;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -15,7 +15,7 @@ public class DragCoordinates implements Action {
 		Float toY = new Float(args[3]);
 		Integer stepCount = 40;
 
-		InstrumentationBackend.solo.drag(fromX,	toX, fromY,	toY, stepCount);
+		RobotiumInstrumentationBackend.solo.drag(fromX,	toX, fromY,	toY, stepCount);
 
 		return Result.successResult();
 	}

@@ -5,7 +5,7 @@ import android.view.KeyEvent;
 
 import java.lang.reflect.Field;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -29,7 +29,7 @@ public class PressKey implements Action {
             return Result.failedResult("Could not find key code from argument '" + keyString + "'");
         }
 
-        Instrumentation instrumentation = InstrumentationBackend.instrumentation;
+        Instrumentation instrumentation = RobotiumInstrumentationBackend.instrumentation;
         Exception securityException = new SecurityException();
 
         for (int i = 0; i < 10; i++) { // Retry sending the key 10 times

@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.map;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -12,7 +12,7 @@ public class SetMapCenter implements Action {
 
     @Override
     public Result execute(String... args) {
-        InstrumentationBackend.solo.setMapCenter( Double.parseDouble(args[0]), Double.parseDouble(args[1]) );
+        RobotiumInstrumentationBackend.solo.setMapCenter( Double.parseDouble(args[0]), Double.parseDouble(args[1]) );
         return Result.successResult();
     }
 

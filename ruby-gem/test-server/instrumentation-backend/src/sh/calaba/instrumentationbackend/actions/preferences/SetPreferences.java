@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.preferences;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 import android.content.SharedPreferences;
@@ -21,7 +21,7 @@ public class SetPreferences implements Action {
 		SharedPreferences preferences = null;
 		
 		try{
-			preferences = PreferencesUtils.getPreferencesFromArgs(args, InstrumentationBackend.instrumentation.getTargetContext());
+			preferences = PreferencesUtils.getPreferencesFromArgs(args, RobotiumInstrumentationBackend.instrumentation.getTargetContext());
 		} catch(Exception e){
 			return Result.fromThrowable(e);
 		}

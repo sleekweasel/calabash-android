@@ -1,6 +1,6 @@
 package sh.calaba.instrumentationbackend.actions.activity;
 
-import sh.calaba.instrumentationbackend.InstrumentationBackend;
+import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.actions.Action;
 
@@ -14,9 +14,9 @@ public class SetActivityOrientation implements Action {
         String orientation = args[0].toLowerCase();
 
         if (orientation.equals("landscape")) {
-            InstrumentationBackend.solo.setActivityOrientation(0);
+            RobotiumInstrumentationBackend.solo.setActivityOrientation(0);
         } else if(orientation.equals("portrait")) {
-            InstrumentationBackend.solo.setActivityOrientation(1);
+            RobotiumInstrumentationBackend.solo.setActivityOrientation(1);
         } else {
             throw new IllegalArgumentException("Invalid orientation '" + orientation + "'. Use 'landscape' or 'portrait'");
         }
