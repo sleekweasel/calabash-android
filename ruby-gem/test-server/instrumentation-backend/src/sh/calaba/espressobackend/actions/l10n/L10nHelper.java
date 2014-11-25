@@ -19,17 +19,17 @@ public class L10nHelper {
   public static String getValue(String l10nKey, String pckg) {
     
     if(pckg == null){
-        pckg = EspressoInstrumentationBackend.solo.getCurrentActivity().getPackageName();
+        pckg = EspressoInstrumentationBackend.getCurrentActivity().getPackageName();
     }
-      
+    
     int resourceId =
-        EspressoInstrumentationBackend.solo
+        EspressoInstrumentationBackend
             .getCurrentActivity()
             .getResources()
             .getIdentifier(l10nKey, "string", pckg);
 
     String localizedString =
-        EspressoInstrumentationBackend.solo.getCurrentActivity().getResources().getString(resourceId);
+        EspressoInstrumentationBackend.getCurrentActivity().getResources().getString(resourceId);
 
     return localizedString;
   }

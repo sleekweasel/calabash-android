@@ -148,7 +148,7 @@ public class HttpServer extends NanoHTTPD {
                     intent.setAction((String) data.get("action"));
                 }
 
-                Activity activity = EspressoInstrumentationBackend.solo.getCurrentActivity();
+                Activity activity = EspressoInstrumentationBackend.getCurrentActivity();
 
                 Log.d(TAG, "Broadcasting intent " + intent);
                 activity.sendBroadcast(intent);
@@ -171,7 +171,7 @@ public class HttpServer extends NanoHTTPD {
                 List arguments = (List) backdoorMethod.get("arguments");
                 Operation operation = new InvocationOperation(methodName, arguments);
 
-                Application application = EspressoInstrumentationBackend.solo.getCurrentActivity().getApplication();
+                Application application = EspressoInstrumentationBackend.getCurrentActivity().getApplication();
                 Object invocationResult;
 
                 invocationResult = operation.apply(application);
@@ -232,7 +232,7 @@ public class HttpServer extends NanoHTTPD {
                     }
 
                     for (final View view : views) {
-                        EspressoInstrumentationBackend.solo.runOnMainSync(new Runnable() {
+                        EspressoInstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
                             @Override
                             public void run() {
                                 Animation animation = new AlphaAnimation(1, 0);
@@ -376,7 +376,7 @@ public class HttpServer extends NanoHTTPD {
 	private View getRootView() {
 		for (int i = 0; i < 25; i++) {
 			try {
-				View decorView = EspressoInstrumentationBackend.solo
+				View decorView = EspressoInstrumentationBackend
 						.getCurrentActivity().getWindow().getDecorView();
 				if (decorView != null) {
 					View rootView = decorView

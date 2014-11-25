@@ -1,22 +1,21 @@
 package sh.calaba.espressobackend;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withContentDescription;
+import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.withId;
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
+import sh.calaba.espressobackend.query.espresso.ViewCaptor;
 import android.app.Activity;
-import android.content.Context;
 import android.content.res.Resources.NotFoundException;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
 
 public class TestHelpers {
 
@@ -34,13 +33,9 @@ public class TestHelpers {
     }
 
     public static View getViewByDescription(String description) {
-        for (View view : EspressoInstrumentationBackend.solo.getCurrentViews()) {
-            String viewDescription = view.getContentDescription() + "";
-            if (viewDescription != null && viewDescription.equalsIgnoreCase(description)) {
-                return view;
-            }
-        }
-        return null;
+        ViewCaptor viewCaptor = new ViewCaptor();
+        Espresso.onView(withContentDescription(description)).perform(viewCaptor);
+        return viewCaptor.getCapturedViews().isEmpty() ? null : viewCaptor.getCapturedViews().get(0);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,7 +59,9 @@ public class TestHelpers {
             return null;
         }
 
-        return EspressoInstrumentationBackend.solo.getView(id);
+        ViewCaptor viewCaptor = new ViewCaptor();
+        Espresso.onView(withId(id)).perform(viewCaptor);
+        return viewCaptor.getCapturedViews().isEmpty() ? null : viewCaptor.getCapturedViews().get(0);
     }
 
     /**
@@ -86,18 +83,18 @@ public class TestHelpers {
             // Assume this is an "R.id.<name>" string.
         }
 
-        final Activity activity = EspressoInstrumentationBackend.solo.getCurrentActivity();
+        final Activity activity = EspressoInstrumentationBackend.getCurrentActivity();
         return activity.getResources().getIdentifier(resName, "id", activity.getPackageName());
     }
 
     public static Drawable getDrawableById(String resName) {
         int id;
         try {
-    	    id = EspressoInstrumentationBackend.solo.getCurrentActivity().getResources().getIdentifier(resName, "drawable", EspressoInstrumentationBackend.solo.getCurrentActivity().getPackageName());
+    	    id = EspressoInstrumentationBackend.getCurrentActivity().getResources().getIdentifier(resName, "drawable", EspressoInstrumentationBackend.getCurrentActivity().getPackageName());
     	} catch( NotFoundException e ) {
     		throw new RuntimeException("getDrawableById: Looking for drawable " + resName + " but was not found");
     	}
-        Drawable drawable = EspressoInstrumentationBackend.solo.getCurrentActivity().getResources().getDrawable(id);
+        Drawable drawable = EspressoInstrumentationBackend.getCurrentActivity().getResources().getDrawable(id);
         if (drawable != null) {
             System.out.println("Did find drawable " + resName + ": " + drawable);
         } else {

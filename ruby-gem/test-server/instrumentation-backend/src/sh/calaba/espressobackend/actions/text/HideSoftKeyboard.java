@@ -17,7 +17,7 @@ public class HideSoftKeyboard implements Action {
         Context context = EspressoInstrumentationBackend.instrumentation.getTargetContext();
         InputMethodManager inputMethodManager = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        Activity activity = EspressoInstrumentationBackend.solo.getCurrentActivity();
+        Activity activity = EspressoInstrumentationBackend.getCurrentActivity();
         View view;
 
         view = InfoMethodUtil.tryGetServedView();

@@ -1,5 +1,9 @@
 package sh.calaba.espressobackend.actions.gestures;
 
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import com.google.android.apps.common.testing.ui.espresso.action.Tap;
+import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+
 import android.view.Display;
 import sh.calaba.espressobackend.EspressoInstrumentationBackend;
 import sh.calaba.espressobackend.Result;
@@ -21,17 +25,17 @@ import sh.calaba.espressobackend.actions.Action;
 public class LongPressCoordinate implements Action {
     @Override
     public Result execute(String... args) {
-        Display display = EspressoInstrumentationBackend.solo.getCurrentActivity().getWindowManager().getDefaultDisplay();
+        Display display = EspressoInstrumentationBackend.getCurrentActivity().getWindowManager().getDefaultDisplay();
 
         float x = Float.parseFloat(args[0]);
         float y = Float.parseFloat(args[1]);
-		if (args.length > 2) {
-			int time = Integer.parseInt(args[2]);
-			EspressoInstrumentationBackend.solo.clickLongOnScreen(x, y, time);
-		} else {
-			EspressoInstrumentationBackend.solo.clickLongOnScreen(x, y);
-		}
-
+		
+        int width = display.getWidth();
+        int height = display.getHeight();
+		
+        Espresso.onView(ViewMatchers.withId(android.R.id.content))
+        .perform(PerformGestureOnCoordinates.performPressOnSpecificCoordinates(Tap.LONG, (int)(x/100)*width, (int) (y/100)*height));
+        
         return Result.successResult();
     }
 

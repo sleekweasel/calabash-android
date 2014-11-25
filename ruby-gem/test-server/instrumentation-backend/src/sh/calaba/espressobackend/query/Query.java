@@ -1,13 +1,9 @@
 package sh.calaba.espressobackend.query;
 
-import static sh.calaba.espressobackend.EspressoInstrumentationBackend.viewFetcher;
-
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
@@ -24,7 +20,11 @@ import sh.calaba.espressobackend.query.ast.UIQueryASTWith;
 import sh.calaba.espressobackend.query.ast.UIQueryDirection;
 import sh.calaba.espressobackend.query.ast.UIQueryEvaluator;
 import sh.calaba.espressobackend.query.ast.UIQueryVisibility;
+import sh.calaba.espressobackend.query.espresso.TopViewCaptorMatcher;
+import sh.calaba.espressobackend.query.espresso.ViewCaptor;
 import android.view.View;
+
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
 
 public class Query {
 
@@ -48,7 +48,9 @@ public class Query {
 	}
 
 	public QueryResult executeQuery() {
-		return UIQueryEvaluator.evaluateQueryWithOptions(parseQuery(this.queryString), rootViews(), parseOperations(this.operations));		
+		return UIQueryEvaluator.evaluateQueryWithOptions(
+				parseQuery(this.queryString), rootViews(),
+				parseOperations(this.operations));
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -57,24 +59,26 @@ public class Query {
 		for (Object o : ops) {
 			Operation op = null;
 			if (o instanceof Operation) {
-				op = (Operation) o;												
-			}
-			else if (o instanceof String) {
-				op = new PropertyOperation((String) o);	
-			}
-			else if (o instanceof Map) {
-				Map mapOp = (Map) o;				
+				op = (Operation) o;
+			} else if (o instanceof String) {
+				op = new PropertyOperation((String) o);
+			} else if (o instanceof Map) {
+				Map mapOp = (Map) o;
 				String methodName = (String) mapOp.get("method_name");
 				if (methodName == null) {
-					throw new IllegalArgumentException("Trying to convert a Map without method_name to an operation. " + mapOp.toString());
+					throw new IllegalArgumentException(
+							"Trying to convert a Map without method_name to an operation. "
+									+ mapOp.toString());
 				}
 				List arguments = (List) mapOp.get("arguments");
 				if (arguments == null) {
-					throw new IllegalArgumentException("Trying to convert a Map without arguments to an operation. " + mapOp.toString());
+					throw new IllegalArgumentException(
+							"Trying to convert a Map without arguments to an operation. "
+									+ mapOp.toString());
 				}
 				op = new InvocationOperation(methodName, arguments);
 			}
-			result.add(op);								
+			result.add(op);
 		}
 		return result;
 	}
@@ -103,7 +107,6 @@ public class Query {
 		return mapUIQueryFromAstNodes(queryPath);
 	}
 
-
 	public static List<UIQueryAST> mapUIQueryFromAstNodes(List<CommonTree> nodes) {
 		List<UIQueryAST> mapped = new ArrayList<UIQueryAST>(nodes.size());
 		for (CommonTree t : nodes) {
@@ -119,35 +122,34 @@ public class Query {
 			try {
 				return new UIQueryASTClassName(Class.forName(step.getText()));
 			} catch (ClassNotFoundException e) {
-				return new UIQueryASTClassName((String)null);
+				return new UIQueryASTClassName((String) null);
 			}
 		case UIQueryParser.NAME:
 			return new UIQueryASTClassName(step.getText());
-		
+
 		case UIQueryParser.WILDCARD:
 			try {
-				return new UIQueryASTClassName(Class.forName("android.view.View"));
+				return new UIQueryASTClassName(
+						Class.forName("android.view.View"));
 			} catch (ClassNotFoundException e) {
-				//Cannot happen
+				// Cannot happen
 				throw new IllegalStateException(e);
 			}
-			
 
-			
 		case UIQueryParser.FILTER_COLON:
 			return UIQueryASTWith.fromAST(step);
-			
+
 		case UIQueryParser.ALL:
-			return UIQueryVisibility.ALL;	
-			
+			return UIQueryVisibility.ALL;
+
 		case UIQueryParser.VISIBLE:
 			return UIQueryVisibility.VISIBLE;
-			
+
 		case UIQueryParser.BEGINPRED:
 			return UIQueryASTPredicate.newPredicateFromAST(step);
 		case UIQueryParser.DIRECTION:
-			return UIQueryDirection.valueOf(step.getText().toUpperCase());			
-			
+			return UIQueryDirection.valueOf(step.getText().toUpperCase());
+
 		default:
 			throw new InvalidUIQueryException("Unknown query: " + stepType
 					+ " with text: " + step.getText());
@@ -156,17 +158,20 @@ public class Query {
 
 	}
 
-    public List<View> rootViews() {
-        Set<View> parents = new HashSet<View>();
-        for (View v : viewFetcher.getAllViews(false))
-        {
-            View parent = viewFetcher.getTopParent(v);            
-            parents.add(parent);
-        }
-        List<View> results = new ArrayList<View>();
-        results.addAll(parents);
-        return results;
-    }
+	public List<View> rootViews() {
+		TopViewCaptorMatcher viewCaptor = new TopViewCaptorMatcher();
+		Espresso.onView(viewCaptor).perform(new ViewCaptor());
+		return viewCaptor.getCapturedViews();
+	}
 
+	public View getTopParent(View view) {
+		if (view.getParent() != null
+				&& !view.getParent().getClass().getName()
+						.equals("android.view.ViewRoot")) {
+			return getTopParent((View) view.getParent());
+		} else {
+			return view;
+		}
+	}
 
 }

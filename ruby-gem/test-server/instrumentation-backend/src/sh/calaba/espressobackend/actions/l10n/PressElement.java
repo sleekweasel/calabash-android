@@ -1,6 +1,10 @@
 
 package sh.calaba.espressobackend.actions.l10n;
 
+import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
+import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+
 import sh.calaba.espressobackend.EspressoInstrumentationBackend;
 import sh.calaba.espressobackend.Result;
 import sh.calaba.espressobackend.actions.Action;
@@ -24,15 +28,13 @@ public class PressElement implements Action {
 		String pckg = (args.length > 2)? args[2] : null;
 		
 		String myLocalizedString = L10nHelper.getValue(l10nKey, pckg);
-		EspressoInstrumentationBackend.solo.searchText(myLocalizedString);
-		if (elementType == null) {
-			EspressoInstrumentationBackend.solo.clickOnText(myLocalizedString);
-		} else if (BUTTON.equalsIgnoreCase(elementType)) {
-			EspressoInstrumentationBackend.solo.clickOnButton(myLocalizedString);
+		if (elementType == null 
+				|| BUTTON.equalsIgnoreCase(elementType) 
+				|| TOGGLE_BUTTON.equalsIgnoreCase(elementType)) {
+			Espresso.onView(ViewMatchers.withText(myLocalizedString)).perform(ViewActions.click());
 		} else if (MENU_ITEM.equalsIgnoreCase(elementType)) {
-			EspressoInstrumentationBackend.solo.clickOnMenuItem(myLocalizedString);
-		} else if (TOGGLE_BUTTON.equalsIgnoreCase(elementType)) {
-			EspressoInstrumentationBackend.solo.clickOnToggleButton(myLocalizedString);
+			Espresso.openActionBarOverflowOrOptionsMenu(EspressoInstrumentationBackend.instrumentation.getTargetContext());
+			Espresso.onView(ViewMatchers.withText(myLocalizedString)).perform(ViewActions.click());
 		} else {
 			return Result.fromThrowable(new Throwable(
 					"specified element type: '" + elementType

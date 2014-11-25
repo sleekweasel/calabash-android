@@ -1,6 +1,8 @@
 package sh.calaba.espressobackend.actions.softkey;
 
 
+import android.view.KeyEvent;
+
 import com.jayway.android.robotium.solo.Solo;
 
 import sh.calaba.espressobackend.EspressoInstrumentationBackend;
@@ -12,7 +14,7 @@ public class EnterKey implements Action {
 
     @Override
     public Result execute(String... args) {
-        EspressoInstrumentationBackend.solo.sendKey(Solo.ENTER);
+    	EspressoInstrumentationBackend.instrumentation.sendCharacterSync(KeyEvent.KEYCODE_ENTER);
         return Result.successResult();
     }
 

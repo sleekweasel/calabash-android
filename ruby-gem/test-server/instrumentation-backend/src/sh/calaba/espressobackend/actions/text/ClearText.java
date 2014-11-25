@@ -24,7 +24,7 @@ public class ClearText implements Action {
         }
 
         final CountDownLatch latch = new CountDownLatch(1);
-        EspressoInstrumentationBackend.solo.runOnMainSync(new Runnable() {
+        EspressoInstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
             @Override
             public void run() {
                 connection.setSelection(0, editable.length());

@@ -16,7 +16,7 @@ public class TapMapMarker implements Action {
 	public Result execute(String... args) {
 		String title = args[0];
 		long timeout = (args.length > 1) ? Long.parseLong(args[1]) : 10000;
-		if( EspressoInstrumentationBackend.solo.tapMapMarkerItem(title, timeout) ) {
+		if( EspressoInstrumentationBackend.mapViewUtils.tapMarkerItem(title, timeout)) {
 			return Result.successResult();
 		}
 		return new Result(false, "Could not find marker '" + title + "' to tap after waiting " + timeout + " ms");

@@ -27,7 +27,7 @@ public class KeyboardEnterText implements Action {
         }
 
         final String textToEnter = args[0];
-        EspressoInstrumentationBackend.solo.runOnMainSync(new Runnable() {
+        EspressoInstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
             @Override
             public void run() {
                 for (char c : textToEnter.toCharArray()) {

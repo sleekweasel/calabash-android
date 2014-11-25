@@ -18,12 +18,12 @@ public class Drag implements Action {
 		Integer stepCount = new Integer(args[4]);
 
 		DisplayMetrics dm = new DisplayMetrics();
-		EspressoInstrumentationBackend.solo.getCurrentActivity().getWindowManager()
+		EspressoInstrumentationBackend.getCurrentActivity().getWindowManager()
 				.getDefaultDisplay().getMetrics(dm);
 		Integer windowWidth = dm.widthPixels;
 		Integer windowHeight = dm.heightPixels;
 
-		EspressoInstrumentationBackend.solo.drag(fromX / 100 * windowWidth, 
+        Dragger.drag(fromX / 100 * windowWidth,
 				toX / 100 * windowWidth, 
 				fromY / 100 * windowHeight, 
 				toY / 100 * windowHeight, 

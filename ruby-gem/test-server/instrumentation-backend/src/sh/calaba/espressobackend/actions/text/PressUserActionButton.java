@@ -57,7 +57,7 @@ public class PressUserActionButton implements Action {
             imeActionCode = findActionCode(view);
         }
 
-        EspressoInstrumentationBackend.solo.runOnMainSync(new Runnable() {
+        EspressoInstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
             @Override
             public void run() {
                 inputConnection.performEditorAction(imeActionCode);

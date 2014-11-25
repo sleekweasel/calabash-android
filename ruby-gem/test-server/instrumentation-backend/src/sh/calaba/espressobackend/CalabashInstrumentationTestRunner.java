@@ -34,7 +34,7 @@ public class CalabashInstrumentationTestRunner extends GoogleInstrumentationTest
         extras.remove("main_activity");
         extras.remove("test_server_port");
         extras.remove("class");
-
+        
         if (extras.isEmpty()) {
             extras = null;
         }

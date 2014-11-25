@@ -54,7 +54,7 @@ public class FakeGPSLocation implements Action {
     	
     	@Override
 		public void run() {
-    		LocationManager locationManager = (LocationManager) EspressoInstrumentationBackend.solo.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
+    		LocationManager locationManager = (LocationManager) EspressoInstrumentationBackend.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
     		locationManager.addTestProvider(LocationManager.NETWORK_PROVIDER, false, false, false, false, false, false, false, Criteria.POWER_LOW, Criteria.ACCURACY_FINE);
     		locationManager.addTestProvider(LocationManager.GPS_PROVIDER, false, false, false, false, false, false, false, Criteria.POWER_LOW, Criteria.ACCURACY_FINE);
 
@@ -104,7 +104,7 @@ public class FakeGPSLocation implements Action {
     }
 
     private boolean doesDeviceProvideGPS() {
-    LocationManager locationManager = (LocationManager) EspressoInstrumentationBackend.solo.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
+    LocationManager locationManager = (LocationManager) EspressoInstrumentationBackend.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
     if (locationManager.getProvider(LocationManager.GPS_PROVIDER) == null) {
         return false;
     } else {
@@ -120,7 +120,7 @@ public class FakeGPSLocation implements Action {
      * @param providerType
      */
     private void addTestProvider(LocationProvider currentProvider, String providerType) {
-    LocationManager locationManager = (LocationManager) EspressoInstrumentationBackend.solo.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
+    LocationManager locationManager = (LocationManager) EspressoInstrumentationBackend.getCurrentActivity().getSystemService(Context.LOCATION_SERVICE);
     
     locationManager.addTestProvider(providerType, 
                     currentProvider.requiresNetwork(), 
