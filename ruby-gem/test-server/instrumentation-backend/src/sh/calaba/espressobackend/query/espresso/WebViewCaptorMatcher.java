@@ -26,7 +26,7 @@ public class WebViewCaptorMatcher extends TypeSafeMatcher<View> {
 
 	@Override
 	public boolean matchesSafely(View view) {
-		if (view.getClass().isAssignableFrom(WebView.class)) {
+		if (view instanceof WebView) {
 			affectedViews.add(view);
 		}
 
