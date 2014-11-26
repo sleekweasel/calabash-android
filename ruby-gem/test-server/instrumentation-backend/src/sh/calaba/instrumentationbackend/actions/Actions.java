@@ -7,11 +7,7 @@ import java.util.Map;
 
 import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;
 import android.app.Instrumentation;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.pm.InstrumentationInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.test.InstrumentationTestCase;
 
 public class Actions {
