@@ -17,7 +17,6 @@ import com.google.android.apps.common.testing.ui.espresso.Espresso;
 import com.google.android.apps.common.testing.ui.espresso.assertion.ViewAssertions;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
-import sh.calaba.espressobackend.EspressoInstrumentationBackend;
 import sh.calaba.espressobackend.Result;
 import sh.calaba.espressobackend.actions.Action;
 
