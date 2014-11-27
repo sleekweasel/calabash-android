@@ -125,6 +125,10 @@ module Calabash module Android
       default_device.start_test_server_in_background(options)
     end
 
+    def start_espresso_test_server_in_background(options={})
+      default_device.start_espresso_test_server_in_background(options)
+    end
+
     def shutdown_test_server
       default_device.shutdown_test_server
     end
@@ -575,7 +579,13 @@ module Calabash module Android
         raise "Could not push #{local} to #{remote}" unless system(cmd)
       end
 
-      def start_test_server_in_background(options={})
+      def start_espresso_test_server_in_background(options={})
+        env_options = options
+        env_options[:class] ||= 'sh.calaba.espressobackend.EspressoInstrumentationBackend'
+        start_test_server_in_background(env_options,'sh.calaba.espressobackend.CalabashInstrumentationTestRunner')
+      end
+
+      def start_test_server_in_background(options={},test_runner='sh.calaba.instrumentationbackend.CalabashInstrumentationTestRunner')
         raise "Will not start test server because of previous failures." if ::Cucumber.wants_to_quit
 
         if keyguard_enabled?
@@ -597,9 +607,7 @@ module Calabash module Android
           cmd_arr << val.to_s
         end
 
-        env_options[:test_runner] ||= 'sh.calaba.instrumentationbackend.CalabashInstrumentationTestRunner'
-
-        cmd_arr << "#{package_name(@test_server_path)}/#{env_options[:test_runner]}"
+        cmd_arr << "#{package_name(@test_server_path)}/#{test_runner}"
 
         cmd = cmd_arr.join(" ")
 
