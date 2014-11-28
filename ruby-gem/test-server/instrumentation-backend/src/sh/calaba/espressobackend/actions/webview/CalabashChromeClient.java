@@ -176,11 +176,14 @@ public class CalabashChromeClient extends WebChromeClient {
 		List<CalabashChromeClient> webViews = new ArrayList<CalabashChromeClient>();
 		WebViewCaptorMatcher webViewCaptorMatcher = new WebViewCaptorMatcher();
 		Espresso.onView(webViewCaptorMatcher).perform(new ViewCaptor());
-		List<View> views = webViewCaptorMatcher.getCapturedViews();
+		List<WebView> views = webViewCaptorMatcher.getCapturedViews();
 		
-		for (View view : views) {
-				WebView webView = (WebView) view;
-				webViews.add(prepareWebView(webView));
+		for (WebView view : views) {
+			try {
+				webViews.add(prepareWebView(view));
+			} catch (Throwable t) {
+				System.out.println("OH OH");
+			}
 		}
 		return webViews;
 

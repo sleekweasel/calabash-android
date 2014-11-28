@@ -48,9 +48,14 @@ public class Query {
 	}
 
 	public QueryResult executeQuery() {
+		try {
 		return UIQueryEvaluator.evaluateQueryWithOptions(
 				parseQuery(this.queryString), rootViews(),
 				parseOperations(this.operations));
+		} catch (Throwable t) {
+			System.out.println("OH OH");
+			return null;
+		}
 	}
 
 	@SuppressWarnings("rawtypes")

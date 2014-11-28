@@ -35,7 +35,7 @@ public class TestHelpers {
     public static View getViewByDescription(String description) {
         ViewCaptor viewCaptor = new ViewCaptor();
         Espresso.onView(withContentDescription(description)).perform(viewCaptor);
-        return viewCaptor.getCapturedViews().isEmpty() ? null : viewCaptor.getCapturedViews().get(0);
+        return viewCaptor.getCapturedView();
     }
 
     @SuppressWarnings("unchecked")
@@ -61,7 +61,7 @@ public class TestHelpers {
 
         ViewCaptor viewCaptor = new ViewCaptor();
         Espresso.onView(withId(id)).perform(viewCaptor);
-        return viewCaptor.getCapturedViews().isEmpty() ? null : viewCaptor.getCapturedViews().get(0);
+        return viewCaptor.getCapturedView();
     }
 
     /**

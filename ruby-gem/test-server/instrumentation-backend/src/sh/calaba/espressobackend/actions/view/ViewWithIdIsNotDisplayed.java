@@ -14,12 +14,12 @@ import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 public class ViewWithIdIsNotDisplayed implements Action {
 	@Override
 	public Result execute(String... args) {
+		EspressoInstrumentationBackend.instrumentation.waitForIdleSync();
 		String id = args[0];
 		int resourceId = EspressoInstrumentationBackend
 				.getCurrentActivity()
 				.getResources()
 				.getIdentifier(id, "id", EspressoInstrumentationBackend.getCurrentActivity().getPackageName());
-		Espresso.onView(ViewMatchers.withId(resourceId)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 
 		try {
 			Espresso.onView(ViewMatchers.withId(resourceId)).check(ViewAssertions.matches((Matchers.not(ViewMatchers.isDisplayed()))));
