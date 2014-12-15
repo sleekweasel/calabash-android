@@ -8,38 +8,40 @@ import sh.calaba.org.codehaus.jackson.map.ObjectMapper;
 
 public class QueryResult {
 
-    private List result;
+	private List result;
 
-    public QueryResult(List result) {
+	public QueryResult(List result) {
 
-        this.result = result;
-    }
+		this.result = result;
+	}
 
-    public boolean isEmpty() {
-        return result.isEmpty();
-    }
+	public boolean isEmpty() {
+		return result.isEmpty();
+	}
 
-    public String asJson() {
-        ObjectMapper mapper = new ObjectMapper();
+	public String asJson() {
+		ObjectMapper mapper = new ObjectMapper();
 
-        try {
-            return mapper.writeValueAsString(result);
-        } catch (IOException e) {
-            throw new RuntimeException("Could not convert result to json", e);
-        }
-    }
+		try {
+			return mapper.writeValueAsString(result);
+		} catch (IOException e) {
+			throw new RuntimeException("Could not convert result to json", e);
+		}
+	}
 
-    public List getResult() {
-        return result;
-    }
+	public List getResult() {
+		return result;
+	}
 
-
-    public List asList() {
-        List<Object> finalResult = new ArrayList(result.size());
-        for (Object o : result) {
-            finalResult.add(ViewMapper.mapView(o));
-        }
-        return finalResult;
-    }
+	public List asList() {
+		List<Object> finalResult = new ArrayList(result.size());
+		for (Object o : result) {
+			Object mappedView = ViewMapper.mapView(o);
+			if (!finalResult.contains(mappedView) || mappedView instanceof String) {
+				finalResult.add(mappedView);
+			}
+		}
+		return finalResult;
+	}
 
 }
