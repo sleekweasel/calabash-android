@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import sh.calaba.instrumentationbackend.query.ViewMapper;
 import sh.calaba.org.codehaus.jackson.map.ObjectMapper;
 
 public class QueryResult {
@@ -29,19 +30,17 @@ public class QueryResult {
 		}
 	}
 
-	public List getResult() {
-		return result;
-	}
+    public List getResult() {
+        return result;
+    }
 
-	public List asList() {
-		List<Object> finalResult = new ArrayList(result.size());
-		for (Object o : result) {
-			Object mappedView = ViewMapper.mapView(o);
-			if (!finalResult.contains(mappedView) || mappedView instanceof String) {
-				finalResult.add(mappedView);
-			}
-		}
-		return finalResult;
-	}
+
+    public List asList() {
+        List<Object> finalResult = new ArrayList(result.size());
+        for (Object o : result) {
+            finalResult.add(ViewMapper.mapView(o));
+        }
+        return finalResult;
+    }
 
 }

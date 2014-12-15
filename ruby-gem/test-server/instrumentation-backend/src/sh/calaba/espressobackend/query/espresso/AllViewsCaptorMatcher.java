@@ -17,7 +17,7 @@ import com.google.android.apps.common.testing.ui.espresso.UiController;
 import com.google.android.apps.common.testing.ui.espresso.ViewAction;
 import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
-public class TopViewCaptorMatcher extends TypeSafeMatcher<View> {
+public class AllViewsCaptorMatcher extends TypeSafeMatcher<View> {
 
 	private final List<View> affectedViews = new ArrayList<View>();
 	private boolean hasAlreadyReturnedTrue = false;
@@ -34,12 +34,8 @@ public class TopViewCaptorMatcher extends TypeSafeMatcher<View> {
 
 	@Override
 	public boolean matchesSafely(View view) {
-		if (view.getParent() == null
-				|| view.getParent().getClass().toString().contains("ViewRoot")
-				|| view.getParent().getClass().toString().contains("DecorView")) {
-			if (!affectedViews.contains(view)) {
-				affectedViews.add(view);
-			}
+		if (!affectedViews.contains(view)) {
+			affectedViews.add(view);
 		}
 
 		if (!hasAlreadyReturnedTrue) {
