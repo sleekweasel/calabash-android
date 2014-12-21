@@ -1,5 +1,7 @@
 package sh.calaba.espressobackend.idleResource;
 
+import sh.calaba.espressobackend.EspressoInstrumentationBackend;
+
 import com.google.android.apps.common.testing.ui.espresso.IdlingResource;
 
 import android.webkit.WebChromeClient;
@@ -13,7 +15,14 @@ public class WebViewIdleResource extends WebChromeClient implements IdlingResour
     private ResourceCallback callback;
 
     public WebViewIdleResource(WebView webView) {
-        this.webView.setWebChromeClient(this);
+    	this.webView = webView;
+    	EspressoInstrumentationBackend.instrumentation.runOnMainSync(new Runnable() {
+			
+			@Override
+			public void run() {
+				WebViewIdleResource.this.webView.setWebChromeClient(WebViewIdleResource.this);
+			}
+		});
     }
 
     @Override public void onProgressChanged(WebView view, int newProgress) {
@@ -23,7 +32,7 @@ public class WebViewIdleResource extends WebChromeClient implements IdlingResour
     }
 
     @Override public void onReceivedTitle(WebView view, String title) {
-        if (webView.getProgress() == FINISHED && callback != null) {
+        if (view.getProgress() == FINISHED && callback != null) {
             callback.onTransitionToIdle();
         }
     }
@@ -35,11 +44,16 @@ public class WebViewIdleResource extends WebChromeClient implements IdlingResour
     }
 
     @Override public boolean isIdleNow() {
-        return webView.getProgress() == FINISHED && webView.getTitle() != null;
+        final boolean isIdle = webView.getProgress() == FINISHED && webView.getTitle() != null;
+        if (isIdle && callback != null) {
+        	callback.onTransitionToIdle();
+        }
+        return isIdle;
     }
 
     @Override public void registerIdleTransitionCallback(ResourceCallback resourceCallback) {
         this.callback = resourceCallback;
+        isIdleNow();
     }
 }
 
