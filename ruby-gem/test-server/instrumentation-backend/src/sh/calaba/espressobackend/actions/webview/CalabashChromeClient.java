@@ -34,7 +34,7 @@ import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebChromeClient.CustomViewCallback;
 
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import android.support.test.espresso.Espresso;
 
 public class CalabashChromeClient extends WebChromeClient {
 	private WebChromeClient mWebChromeClient;

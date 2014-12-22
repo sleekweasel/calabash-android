@@ -129,7 +129,7 @@ class Env
   end
 
   def self.tools_dir
-    tools_dir = tools_directories.first
+    tools_dir = tools_directories.reverse[1]
     log "Found tools directory at '#{tools_dir}'"
     tools_dir
   end

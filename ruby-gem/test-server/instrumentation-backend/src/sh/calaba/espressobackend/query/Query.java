@@ -30,7 +30,7 @@ import sh.calaba.espressobackend.query.PropertyOperation;
 import sh.calaba.espressobackend.query.QueryResult;
 import android.view.View;
 
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
+import android.support.test.espresso.Espresso;
 
 public class Query {
 

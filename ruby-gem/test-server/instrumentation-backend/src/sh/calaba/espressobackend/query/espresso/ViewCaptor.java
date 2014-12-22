@@ -5,8 +5,8 @@ import org.hamcrest.Matchers;
 
 import android.view.View;
 
-import com.google.android.apps.common.testing.ui.espresso.UiController;
-import com.google.android.apps.common.testing.ui.espresso.ViewAction;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
 
 public class ViewCaptor implements ViewAction {
 
@@ -14,7 +14,7 @@ public class ViewCaptor implements ViewAction {
 	
 	@Override
 	public Matcher<View> getConstraints() {
-		return Matchers.anything();
+		return Matchers.any(View.class);
 	}
 
 	@Override

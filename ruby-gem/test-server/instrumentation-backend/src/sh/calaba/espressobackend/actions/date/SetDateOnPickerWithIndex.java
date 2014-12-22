@@ -3,16 +3,17 @@ package sh.calaba.espressobackend.actions.date;
 
 import java.util.Date;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 
 import sh.calaba.espressobackend.Result;
 import sh.calaba.espressobackend.actions.Action;
 import sh.calaba.espressobackend.matchers.WithIndex;
 import sh.calaba.espressobackend.query.espresso.DatePickerSetter;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.matcher.ViewMatchers;
+import android.view.View;
 import android.widget.DatePicker;
-
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 
 public class SetDateOnPickerWithIndex implements Action {
@@ -23,10 +24,10 @@ public class SetDateOnPickerWithIndex implements Action {
     	
         int expectedIndex = Integer.parseInt(args[0]);
         Date date = new Date(Date.parse(args[1]));
+        Matcher<View> matcher = Matchers.allOf(ViewMatchers.isAssignableFrom(DatePicker.class), 
+        		new WithIndex(expectedIndex));
         
-        Espresso.onView(Matchers.allOf(ViewMatchers.isAssignableFrom(DatePicker.class), 
-        		new WithIndex(expectedIndex)))
-        		.perform(new DatePickerSetter(date));
+        Espresso.onView(matcher).perform(new DatePickerSetter(date));
 
         return Result.successResult();
     }

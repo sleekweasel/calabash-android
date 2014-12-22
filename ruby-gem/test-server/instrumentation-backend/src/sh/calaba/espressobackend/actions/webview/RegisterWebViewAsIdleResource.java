@@ -9,8 +9,8 @@ import sh.calaba.espressobackend.query.espresso.ViewCaptor;
 import android.view.View;
 import android.webkit.WebView;
 
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.matcher.ViewMatchers;
 
 public class RegisterWebViewAsIdleResource implements Action {
 

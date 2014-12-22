@@ -2,16 +2,18 @@ package sh.calaba.espressobackend.actions.time;
 
 import java.sql.Time;
 
+import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.hamcrest.text.StringContains;
+import org.hamcrest.core.StringContains;
 
 import sh.calaba.espressobackend.Result;
 import sh.calaba.espressobackend.actions.Action;
 import sh.calaba.espressobackend.query.espresso.TimePickerSetter;
+import android.view.View;
 import android.widget.TimePicker;
 
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.matcher.ViewMatchers;
 
 public class SetTimeOnPickerWithDescription implements Action {
 
@@ -22,11 +24,11 @@ public class SetTimeOnPickerWithDescription implements Action {
 		String contentDescription = args[0];
 		Time time = new Time(Time.parse(args[1]));
 
-		Espresso.onView(
-				Matchers.allOf(ViewMatchers.isAssignableFrom(TimePicker.class),
-						ViewMatchers.withContentDescription(StringContains
-								.containsString(contentDescription)))).perform(
-				new TimePickerSetter(time));
+		Matcher<View> matcher = Matchers.allOf(ViewMatchers.isAssignableFrom(TimePicker.class),
+				ViewMatchers.withContentDescription(StringContains
+						.containsString(contentDescription)));
+		
+		Espresso.onView(matcher).perform(new TimePickerSetter(time));
 
 		return Result.successResult();
 	}

@@ -7,9 +7,9 @@ import org.hamcrest.Matcher;
 import android.view.View;
 import android.widget.TimePicker;
 
-import com.google.android.apps.common.testing.ui.espresso.UiController;
-import com.google.android.apps.common.testing.ui.espresso.ViewAction;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
+import android.support.test.espresso.UiController;
+import android.support.test.espresso.ViewAction;
+import android.support.test.espresso.matcher.ViewMatchers;
 
 public class TimePickerSetter implements ViewAction {
 	

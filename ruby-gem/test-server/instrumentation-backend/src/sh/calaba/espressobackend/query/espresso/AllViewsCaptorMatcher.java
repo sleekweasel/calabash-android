@@ -3,19 +3,10 @@ package sh.calaba.espressobackend.query.espresso;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeMatcher;
 
-import android.util.Log;
 import android.view.View;
-import android.view.ViewManager;
-
-import com.google.android.apps.common.testing.ui.espresso.UiController;
-import com.google.android.apps.common.testing.ui.espresso.ViewAction;
-import com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers;
 
 public class AllViewsCaptorMatcher extends TypeSafeMatcher<View> {
 

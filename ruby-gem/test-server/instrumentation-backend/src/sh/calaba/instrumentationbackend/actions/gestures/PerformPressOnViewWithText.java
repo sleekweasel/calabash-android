@@ -2,7 +2,7 @@ package sh.calaba.instrumentationbackend.actions.gestures;
 
 import android.view.View;
 
-import com.google.android.apps.common.testing.ui.espresso.action.Tap;
+import android.support.test.espresso.action.Tap;
 
 import sh.calaba.instrumentationbackend.Result;
 import sh.calaba.instrumentationbackend.RobotiumInstrumentationBackend;

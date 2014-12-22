@@ -2,7 +2,7 @@ package sh.calaba.espressobackend.idleResource;
 
 import sh.calaba.espressobackend.EspressoInstrumentationBackend;
 
-import com.google.android.apps.common.testing.ui.espresso.IdlingResource;
+import android.support.test.espresso.IdlingResource;
 
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;

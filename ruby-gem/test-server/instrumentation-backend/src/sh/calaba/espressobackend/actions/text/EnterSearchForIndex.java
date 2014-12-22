@@ -1,25 +1,26 @@
 package sh.calaba.espressobackend.actions.text;
 
-import android.widget.EditText;
-import android.widget.SearchView;
+import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
+import static org.hamcrest.core.AllOf.allOf;
 
-import com.google.android.apps.common.testing.ui.espresso.Espresso;
-import com.google.android.apps.common.testing.ui.espresso.action.ViewActions;
+import org.hamcrest.Matcher;
 
 import sh.calaba.espressobackend.Result;
 import sh.calaba.espressobackend.actions.Action;
 import sh.calaba.espressobackend.matchers.WithIndex;
-
-import static com.google.android.apps.common.testing.ui.espresso.matcher.ViewMatchers.isAssignableFrom;
-import static org.hamcrest.core.AllOf.allOf;
+import android.support.test.espresso.Espresso;
+import android.support.test.espresso.action.ViewActions;
+import android.view.View;
+import android.widget.SearchView;
 
 public class EnterSearchForIndex implements Action {
     @Override
     public Result execute(String... args) {
         String text = args[0];
         int index = Integer.parseInt(args[1]);
-        Espresso.onView(allOf(isAssignableFrom(SearchView.class), new WithIndex(index)))
-                .perform(ViewActions.typeText(text));
+        Matcher<View> matcher = allOf(isAssignableFrom(SearchView.class), new WithIndex(index));
+        
+		Espresso.onView(matcher).perform(ViewActions.typeText(text));
         
         return Result.successResult();
     }
