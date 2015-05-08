@@ -1,0 +1,103 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        // classpath 'com.android.tools.build:gradle:0.11.1' // Get better diagnostics about duplicates in dex files
+        classpath 'com.android.tools.build:gradle:1.1.1'
+    }
+}
+
+apply plugin: 'android'
+
+// http://tools.android.com/tech-docs/new-build-system/user-guide#TOC-Testing
+android {
+    // Required for maps
+    compileSdkVersion "Google Inc.:Google APIs:19"
+
+    // Must match or exceed compileSdkVersion; android tools build 1.1.1 rq 21.1.1 or better.
+    buildToolsVersion "21.1.1"
+
+
+    packagingOptions {
+      // junit-dep and hamcrest-all conflict
+      exclude 'LICENSE.txt'
+    }
+
+    defaultConfig {
+        // Gradle wants to manage the test manifest's <instrumentation> node by itself:
+        // That's fine: it's replaced later by calabash-android-build.irb.
+        testApplicationId "sh.calaba.test"
+        testInstrumentationRunner "android.test.InstrumentationTestRunner"
+        testHandleProfiling true
+        testFunctionalTest true
+
+        minSdkVersion 8 // This seemed necessary to shut Espresso's complaint vs api 6 up.
+        // targetSdkVersion 19 // Dunno who thought this - a manifest?
+        targetSdkVersion 21 // According to Rakefile
+        versionCode 1
+        versionName "1.0"
+    }
+
+    sourceSets {
+        main {
+            // The app is not used by './gradlew assembleDebugAndroidTest': we just
+            // need something minimal and uncontroversial to keep Gradle happy.
+            manifest.srcFile 'dummy/AndroidManifest.xml'
+            java.srcDirs = ['dummy']
+            resources.srcDirs = ['dummy']
+            aidl.srcDirs = ['dummy']
+            renderscript.srcDirs = ['dummy']
+            res.srcDirs = ['dummy/res']
+            assets.srcDirs = ['dummy/assets']
+        }
+
+        androidTest { //.setRoot('instrumentation-backend')
+            manifest.srcFile 'instrumentation-backend/AndroidManifest.xml'
+            java.srcDirs = ['instrumentation-backend/src']
+            resources.srcDirs = ['instrumentation-backend/src']
+            aidl.srcDirs = ['instrumentation-backend/aidl']
+            renderscript.srcDirs = ['instrumentation-backend/renderscript']
+            res.srcDirs = ['instrumentation-backend/res']
+            assets.srcDirs = ['instrumentation-backend//assets']
+        }
+    }
+}
+
+dependencies {
+    repositories {
+        mavenCentral()
+    }
+
+// ./gradlew dependencies
+// +--- junit:junit-dep:4.8.+ -> 4.10
+// |    \--- org.hamcrest:hamcrest-core:1.1
+// +--- org.hamcrest:hamcrest-all:1.3
+// +--- com.jayway.android.robotium:robotium-solo:4.3.1
+// \--- com.android.support.test.espresso:espresso-core:2.0
+//      +--- com.squareup:javawriter:2.1.1
+//      +--- org.hamcrest:hamcrest-integration:1.1
+//      |    \--- org.hamcrest:hamcrest-core:1.1
+//      +--- org.hamcrest:hamcrest-library:1.1
+//      |    \--- org.hamcrest:hamcrest-core:1.1
+//      +--- javax.inject:javax.inject:1
+//      +--- com.android.support.test.espresso:espresso-idling-resource:2.0
+//      +--- com.android.support.test:testing-support-lib:0.1
+//      |    \--- junit:junit-dep:4.10 (*)
+//      +--- com.google.code.findbugs:jsr305:2.0.1
+//      +--- javax.annotation:javax.annotation-api:1.2
+//      \--- org.hamcrest:hamcrest-core:1.1
+
+
+    androidTestCompile('junit:junit-dep:4.8.+') {
+        exclude group: 'org.hamcrest'
+    }
+    // androidTestCompile 'org.hamcrest:hamcrest-all:1.3' But everyone else wants 1.1...
+    androidTestCompile 'org.hamcrest:hamcrest-all:1.3'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:4.3.1'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.0') {  
+        exclude group: 'org.hamcrest'
+    }
+    // androidTestCompile 'com.android.support.test:runner:0.2' // Conflicts espresso 2.0 - duplicates BuildConfig.java
+}
