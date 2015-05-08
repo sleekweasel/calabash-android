@@ -51,7 +51,6 @@ def relative_to_full_path(file_path)
   File.expand_path(file_path)
 end
 
-puts "* GEM DEV VERSION CHECK"
 if ARGV.length == 0
   print_usage
 else

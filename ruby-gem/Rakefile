@@ -23,6 +23,8 @@ def build
     test_server_dir = File.join(workspace_dir, 'test-server')
     FileUtils.cp_r(test_server_template_dir, workspace_dir)
 
+    # Ant staging
+
     # Try munging the workspace copy of instrumentation_backend directly,
     # instead of having Ant's 'staging' copy in addition(!)
 
@@ -35,27 +37,27 @@ def build
     FileUtils.cp_r(calabash_js_dir, backend_assets_dir)
 
     backend_src_dir = File.join(backend_dir, 'src')
-    backends = [ 'instrumentationbackend', 'espressobackend' ]
+    backends = %w(instrumentationbackend espressobackend)
     backend_actions = backends.collect { |b| "#{backend_src_dir}/sh/calaba/#{b}/actions" }
 
     version_token = '####VERSION####'
     backend_actions.each do |b|
         file = "#{b}/version/Version.java"
-        data = File.open(file, "r") { |f| f.read }
+        data = File.open(file, 'r') { |f| f.read }
         raise "No #{version_token} found in #{file}" unless data.gsub!(version_token, Calabash::Android::VERSION)
-        File.open(file, "w") { |f| f.write(data) }
+        File.open(file, 'w') { |f| f.write(data) }
     end
     
     action_java_files = Dir.glob(backend_actions.collect { |v| "#{v}/**/*.java" })
-    action_classes = action_java_files.collect { |s| s.gsub( "#{backend_src_dir}/", "").gsub(".java", "").gsub("/", ".") }
+    action_classes = action_java_files.collect { |s| s.gsub( "#{backend_src_dir}/", '').gsub('.java', '').gsub('/', '.') }
     File.open(File.join(backend_assets_dir, 'actions'), 'w') { |a| a << action_classes.join("\n") }
 
     # end staging
 
     args = [
       Env.gradle_path,
-      "clean",
-      "assembleDebugAndroidTest"
+      'clean',
+      'assembleDebugAndroidTest'
     ]
     Dir.chdir(test_server_dir) do
       STDOUT.sync = true
