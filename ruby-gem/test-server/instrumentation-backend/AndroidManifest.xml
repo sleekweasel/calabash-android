@@ -6,12 +6,9 @@
 
     <uses-sdk android:minSdkVersion="8" />
 
-    <application android:label="CalabashTestServer" android:debuggable="true">
+    <application android:label="CalabashTestServer">
         <uses-library android:name="android.test.runner" />
         <uses-library android:name="com.google.android.maps" android:required="false" />
     </application>
 
-    <!-- instrumentation will be added by Gradle
-        android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="sh.calaba" / -->
 </manifest>

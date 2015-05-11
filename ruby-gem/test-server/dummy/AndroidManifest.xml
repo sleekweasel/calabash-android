@@ -7,7 +7,7 @@
 
     <uses-sdk android:minSdkVersion="6" />
 
-    <application android:label="CalabashTestServer" android:debuggable="true">
+    <application android:label="CalabashTestServer">
         <uses-library android:name="android.test.runner" />
         <uses-library android:name="com.google.android.maps" android:required="false" />
     </application>

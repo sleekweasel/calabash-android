@@ -13,24 +13,13 @@ end
 def build
   test_server_template_dir = File.join(File.dirname(__FILE__), 'test-server')
 
-  # Ant precondition
   calabash_js_dir = File.join(test_server_template_dir, 'calabash-js/src')
   fail "#{calabash_js_dir} does not exist" unless File.directory?(calabash_js_dir)
-  # end Ant precondition
 
   Dir.mktmpdir do |workspace_dir|
 
     test_server_dir = File.join(workspace_dir, 'test-server')
     FileUtils.cp_r(test_server_template_dir, workspace_dir)
-
-    # Ant staging
-
-    # Try munging the workspace copy of instrumentation_backend directly,
-    # instead of having Ant's 'staging' copy in addition(!)
-
-    # Not sure we still need these with gradle building...
-    #  <fileset erroronmissingdir="false" dir="${env.ANDROID_HOME}/add-ons/addon-google_apis-google_inc_-${android.api.level}/libs"/>
-    #  <fileset erroronmissingdir="false" dir="${env.ANDROID_HOME}/add-ons/addon-google_apis-google-${android.api.level}/libs"/>
 
     backend_dir = File.join(test_server_dir, 'instrumentation-backend')
     backend_assets_dir = File.join(backend_dir, 'assets')
@@ -49,10 +38,10 @@ def build
     end
     
     action_java_files = Dir.glob(backend_actions.collect { |v| "#{v}/**/*.java" })
-    action_classes = action_java_files.collect { |s| s.gsub( "#{backend_src_dir}/", '').gsub('.java', '').gsub('/', '.') }
+    action_classes = action_java_files.collect do |s|
+      s.gsub( "#{backend_src_dir}/", '').gsub('.java', '').gsub('/', '.')
+    end
     File.open(File.join(backend_assets_dir, 'actions'), 'w') { |a| a << action_classes.join("\n") }
-
-    # end staging
 
     args = [
       Env.gradle_path,
@@ -61,28 +50,28 @@ def build
     ]
     Dir.chdir(test_server_dir) do
       STDOUT.sync = true
-      IO.popen(args.join(" ")) do |io|
+      IO.popen(args.join(' ')) do |io|
         io.each { |s| print s }
       end
       if $?.exitstatus != 0
-        puts "Could not build the test server. Please see the output above."
+        puts 'Could not build the test server. Please see the output above.'
         exit $?.exitstatus
       end
     end
 
-    FileUtils.mkdir_p "test_servers" unless File.exist? "test_servers"
+    FileUtils.mkdir_p 'test_servers' unless File.exist? 'test_servers'
 
-    FileUtils.cp(
-      File.join(test_server_dir, "build", "outputs", "apk",
-                "test-server-debug-androidTest-unaligned.apk"),
-      File.join(File.dirname(__FILE__), 'lib/calabash-android/lib/TestServer.apk'))
+    built_apk = File.join(test_server_dir, 'build', 'outputs', 'apk',
+                          'test-server-debug-androidTest-unaligned.apk')
+    copied_apk = File.join(File.dirname(__FILE__), 'lib/calabash-android/lib/TestServer.apk')
+    FileUtils.cp(built_apk, copied_apk)
   end
 end
 
 task :build do
-  unless File.exists? "test-server/calabash-js/src"
-    puts "calabash-js not found!"
-    puts "For instuctions see: https://github.com/calabash/calabash-android/wiki/Building-calabash-android"
+  unless File.exists? 'test-server/calabash-js/src'
+    puts 'calabash-js not found!'
+    puts 'For instructions see: https://github.com/calabash/calabash-android/wiki/Building-calabash-android'
     exit 1
   end
 
