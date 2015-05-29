@@ -9,6 +9,8 @@ import java.io.StringWriter;
 import java.lang.InterruptedException;
 import java.lang.Override;
 import java.lang.Runnable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -53,11 +55,11 @@ public class HttpServer extends NanoHTTPD {
 	private final Condition shutdownCondition = lock.newCondition();
 
 	private static HttpServer instance;
-	
+
 
 	/**
 	 * Creates and returns the singleton instance for HttpServer.
-	 * 
+	 *
 	 * Can only be called once. Otherwise, you'll get an IllegalStateException.
 	 */
 	public synchronized static HttpServer instantiate(int testServerPort) {
@@ -96,39 +98,39 @@ public class HttpServer extends NanoHTTPD {
 		else if (uri.endsWith("/dump")) {
 			FranklyResult errorResult = null;
 			try {
-				
-				
+
+
 				String json = params.getProperty("json");
-				
-				
+
+
 				if (json == null)
-				{					
+				{
 					Map<?,?> dumpTree = new ViewDump().dumpWithoutElements();
 					return new NanoHTTPD.Response(HTTP_OK, "application/json;charset=utf-8", JSONUtils.asJson(dumpTree));
 				}
-				else 
+				else
 				{
 					ObjectMapper mapper = new ObjectMapper();
 					Map dumpSpec = mapper.readValue(json, Map.class);
-														
+
 					List<Integer> path = (List<Integer>) dumpSpec.get("path");
 					if (path == null)
 					{
 						Map<?,?> dumpTree = new ViewDump().dumpWithoutElements();
-						return new NanoHTTPD.Response(HTTP_OK, "application/json;charset=utf-8", JSONUtils.asJson(dumpTree));					
+						return new NanoHTTPD.Response(HTTP_OK, "application/json;charset=utf-8", JSONUtils.asJson(dumpTree));
 					}
 					Map<?,?> dumpTree = new ViewDump().dumpPathWithoutElements(path);
 					if (dumpTree == null) {
-						return new NanoHTTPD.Response(HTTP_NOTFOUND, "application/json;charset=utf-8", "{}");	
+						return new NanoHTTPD.Response(HTTP_NOTFOUND, "application/json;charset=utf-8", "{}");
 					}
 					else {
-						return new NanoHTTPD.Response(HTTP_OK, "application/json;charset=utf-8", JSONUtils.asJson(dumpTree));	
+						return new NanoHTTPD.Response(HTTP_OK, "application/json;charset=utf-8", JSONUtils.asJson(dumpTree));
 					}
-					
-					
+
+
 				}
 
-				
+
 			} catch (Exception e ) {
 				e.printStackTrace();
                 errorResult = FranklyResult.fromThrowable(e);
@@ -212,7 +214,7 @@ public class HttpServer extends NanoHTTPD {
 				String commandString = params.getProperty("json");
 				ObjectMapper mapper = new ObjectMapper();
 				Map command = mapper.readValue(commandString, Map.class);
-				
+
 				String uiQuery = (String) command.get("query");
 				uiQuery = uiQuery.trim();
 				Map op = (Map) command.get("operation");
@@ -348,8 +350,29 @@ public class HttpServer extends NanoHTTPD {
 
 		} else if (uri.endsWith("/ready")) {
 			return new Response(HTTP_OK, MIME_HTML, Boolean.toString(ready));
-
-		} else if (uri.endsWith("/screenshot")) {
+		} else if (uri.endsWith("/coverage")) {
+			try {
+				// Use reflection like Android InstrumentationTestRunner for now.
+				ClassLoader classLoader = RobotiumInstrumentationBackend.instrumentation.getTargetContext().getClassLoader();
+				Class<?> RTClass = classLoader.loadClass("org.jacoco.agent.rt.RT");
+				Method getAgentMethod = RTClass.getMethod("getAgent");
+				Object agent = getAgentMethod.invoke(null);
+				Class<?> IAgentClass = classLoader.loadClass("org.jacoco.agent.rt.IAgent");
+				Method dumpCoverageMethod = IAgentClass.getMethod("getExecutionData", boolean.class);
+				byte[] executionData = (byte[])dumpCoverageMethod.invoke(agent, true);
+				return new NanoHTTPD.Response(HTTP_OK, "application/data",
+						new ByteArrayInputStream(executionData));
+			}
+			catch (Exception e) {
+				StringWriter sw = new StringWriter();
+				PrintWriter pw = new PrintWriter(sw);
+				e.printStackTrace(pw);
+				System.out.println(sw.toString());
+				return new NanoHTTPD.Response(HTTP_INTERNALERROR, null,
+						sw.toString());
+			}
+		}
+		else if (uri.endsWith("/screenshot")) {
 			try {
 				Bitmap bitmap;
 				View rootView = getRootView();
