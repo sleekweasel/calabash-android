@@ -573,6 +573,7 @@ module Calabash module Android
       end
 
       def clear_app_data
+        collect_coverage_data
         cmd = "#{adb_command} shell am instrument #{package_name(@test_server_path)}/sh.calaba.instrumentationbackend.ClearAppData"
         raise "Could not clear data" unless system(cmd)
       end
@@ -680,7 +681,7 @@ module Calabash module Android
             i += 1 while File.exist?((path = coverage_filename(coverage_dir, i)))
             File.open(path, 'wb') { |f| f.write res }
           end
-        rescue StandardError e
+        rescue StandardError => e
           # Not sure how important failure is here: some folks collect coverage routinely,
           # but only check it periodically.
           log("Failed to retrieve coverage: #{e}")

@@ -353,7 +353,7 @@ public class HttpServer extends NanoHTTPD {
 		} else if (uri.endsWith("/coverage")) {
 			try {
 				// Use reflection like Android InstrumentationTestRunner for now.
-				ClassLoader classLoader = RobotiumInstrumentationBackend.instrumentation.getTargetContext().getClassLoader();
+				ClassLoader classLoader = InstrumentationBackend.instrumentation.getTargetContext().getClassLoader();
 				Class<?> RTClass = classLoader.loadClass("org.jacoco.agent.rt.RT");
 				Method getAgentMethod = RTClass.getMethod("getAgent");
 				Object agent = getAgentMethod.invoke(null);
